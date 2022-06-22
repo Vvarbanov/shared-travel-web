@@ -1,0 +1,10 @@
+<div mat-menu-item
+     [disabled]="disabled"
+     *ngIf="htmlMessage"
+     class="container"
+     (click)="clickEvent.emit()">
+    <span [innerHtml]="htmlMessage | boldText"></span>
+    <br>
+    <span class="mat-small">{{timeMessage}}</span>
+    <hr>
+</div>

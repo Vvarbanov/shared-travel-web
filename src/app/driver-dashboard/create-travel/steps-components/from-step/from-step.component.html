@@ -1,0 +1,19 @@
+<form [formGroup]="formData">
+    <app-location-autocomplete-input (locationSelectedEvent)="updateField($event)"
+                                     i18n-labelText="@@driver-dashboard.from-step.html.starting-location-label"
+                                     labelText="Starting Location"
+                                     i18n-placeholderText="@@driver-dashboard.from-step.html.starting-location-placeholder"
+                                     placeholderText="Sofia"
+                                     i18n-errorMessageText="@@driver-dashboard.from-step.html.starting-location-error"
+                                     errorMessageText="Starting location is required!">
+    </app-location-autocomplete-input>
+    <div class="actions">
+        <button mat-button
+                i18n="@@button.cancel"
+                [routerLink]="'/driver-dashboard'">Cancel</button>
+        <button mat-raised-button
+                color="accent"
+                matStepperNext
+                i18n="@@button.next">Next</button>
+    </div>
+</form>

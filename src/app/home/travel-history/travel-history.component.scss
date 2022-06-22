@@ -1,0 +1,32 @@
+.history-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    margin: 1rem;
+    padding: 1rem;
+    gap: 1rem;
+
+    app-travel-history-card {
+        flex-grow: 1;
+        border-radius: 0.25rem;
+    }
+}
+
+@media screen and (min-width: 40rem) {
+    .history-container {
+        margin: 1rem 5vw;
+    }
+}
+
+@media screen and (min-width: 60rem) {
+    .history-container {
+        margin: 1rem 10vw;
+    }
+}
+
+@media screen and (min-width: 80rem) {
+    .history-container {
+        margin: 1rem 15vw;
+    }
+}

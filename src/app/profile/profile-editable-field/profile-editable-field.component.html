@@ -1,0 +1,44 @@
+<mat-form-field appearance="fill">
+    <mat-label>{{label}}</mat-label>
+    <input matInput
+           #input
+           type="text"
+           [maxlength]="length"
+           [disabled]="!edit"
+           [(ngModel)]="editValue">
+</mat-form-field>
+<div class="actions">
+    <button mat-icon-button
+            *ngIf="!edit"
+            (click)="startEdit(input)"
+            color="primary"
+            i18n-matTooltip="@@icon-button-edit"
+            matTooltip="Edit"
+            matTooltipPosition="after"
+            [matTooltipShowDelay]="1000"
+            aria-label="icon button used to edit the field">
+        <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button
+            *ngIf="edit"
+            (click)="saveEdit()"
+            color="accent"
+            i18n-matTooltip="@@icon-button-save"
+            matTooltip="Save"
+            matTooltipPosition="after"
+            [matTooltipShowDelay]="1000"
+            aria-label="icon button used to save the edited the field">
+        <mat-icon>done</mat-icon>
+    </button>
+    <button mat-icon-button
+            *ngIf="edit"
+            (click)="cancelEdit()"
+            color="warn"
+            i18n-matTooltip="@@icon-button-cancel"
+            matTooltip="Cancel"
+            matTooltipPosition="after"
+            [matTooltipShowDelay]="1000"
+            aria-label="icon button used to cancel the editing of the field">
+        <mat-icon>cancel</mat-icon>
+    </button>
+</div>

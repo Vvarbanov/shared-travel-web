@@ -1,0 +1,11 @@
+<cdk-virtual-scroll-viewport #scroller
+                             itemSize="145"
+                             class="scroller">
+    <div *ngIf="!notifications?.length"
+         mat-menu-item>No notifications!</div>
+    <app-notification-card *cdkVirtualFor="let notification of notifications"
+                           [disabled]="notification!.processed"
+                           [htmlMessage]="getNotificationMessage(notification)"
+                           [timeMessage]="getNotificationTimeMessage(notification)"
+                           (clickEvent)="handleCallback(notification)"></app-notification-card>
+</cdk-virtual-scroll-viewport>

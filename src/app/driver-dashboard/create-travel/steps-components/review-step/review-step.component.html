@@ -1,0 +1,31 @@
+<div class="review-container">
+    <div class="calendar bg-color-surface-secondary-dark">
+        <div class="label"
+              i18n="@@driver-dashboard.review-step.html.departure-label">Departure Time</div>
+        <mat-calendar type="datetime"
+                      [selected]="travelObject.departureDate"></mat-calendar>
+    </div>
+
+    <div class="fields-container">
+        <div class="from field bg-color-surface-secondary-dark">
+            <span class="label"
+                  i18n="@@driver-dashboard.review-step.html.starting-location-label">Starting Location</span>
+            {{getLocationName(travelObject.from)}}
+        </div>
+        <div class="to field bg-color-surface-secondary-dark">
+            <span class="label"
+                  i18n="@@driver-dashboard.review-step.html.destination-location-label">Destination</span>
+            {{getLocationName(travelObject.to)}}
+        </div>
+    </div>
+</div>
+
+<div class="actions">
+    <button mat-button
+            matStepperPrevious
+            i18n="@@button.back">Back</button>
+    <button mat-raised-button
+            color="primary"
+            i18n="@@button.confirm"
+            (click)="submit()">Confirm</button>
+</div>

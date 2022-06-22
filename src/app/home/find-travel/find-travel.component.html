@@ -1,0 +1,57 @@
+<div class="form-container">
+    <form [formGroup]="formData"
+          class="bg-color-surface"
+          (ngSubmit)="submit()">
+        <app-location-autocomplete-input #fromComponent
+                                         (locationSelectedEvent)="updateField($event, 'from')"
+                                         i18n-labelText="@@home.find-travel.html.starting-point-label"
+                                         labelText="Starting Point"
+                                         i18n-placeholderText="@@home.find-travel.html.starting-point-placeholder"
+                                         placeholderText="Sofia"
+                                         i18n-errorMessageText="@@home.find-travel.html.starting-point-error"
+                                         errorMessageText="Starting point is required!">
+        </app-location-autocomplete-input>
+        <app-location-autocomplete-input #toComponent
+                                         (locationSelectedEvent)="updateField($event, 'to')"
+                                         i18n-labelText="@@home.find-travel.html.destination-point-label"
+                                         labelText="Destination"
+                                         i18n-placeholderText="@@home.find-travel.html.destination-point-placeholder"
+                                         placeholderText="Plovdiv"
+                                         i18n-errorMessageText="@@home.find-travel.html.destination-point-error"
+                                         errorMessageText="Destination is required!">
+        </app-location-autocomplete-input>
+
+        <mat-form-field appearance="fill"
+                        (click)="departurePicker.open()">
+            <mat-label i18n="@@home.find-travel.html.departure-label">Departure Time</mat-label>
+            <input matInput
+                   readonly
+                   [matDatepicker]="departurePicker"
+                   formControlName="departureDate">
+            <mat-datepicker-toggle matSuffix
+                                   [for]="departurePicker"></mat-datepicker-toggle>
+            <mat-datepicker #departurePicker
+                            type="datetime"
+                            [twelveHour]="false">
+                <mat-datepicker-actions>
+                    <button mat-button
+                            matDatepickerCancel
+                            i18n="@@button.cancel">Cancel</button>
+                    <button mat-raised-button
+                            color="primary"
+                            matDatepickerApply
+                            i18n="@@button.apply">Apply</button>
+                </mat-datepicker-actions>
+            </mat-datepicker>
+            <mat-error *ngIf="formData.controls.departureDate?.invalid"
+                       i18n="@@home.find-travel.html.departure-error">Departure Time is required!</mat-error>
+        </mat-form-field>
+
+        <div class="button-container">
+            <button mat-raised-button
+                    color="primary"
+                    [disabled]="formData?.invalid"
+                    i18n="@@home.find-travel.html.find-travel-button">Find Travel</button>
+        </div>
+    </form>
+</div>

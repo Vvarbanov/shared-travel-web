@@ -1,0 +1,19 @@
+<form [formGroup]="formData">
+    <app-location-autocomplete-input (locationSelectedEvent)="updateField($event)"
+                                     i18n-labelText="@@driver-dashboard.to-step.html.destination-location-label"
+                                     labelText="Destination"
+                                     i18n-placeholderText="@@driver-dashboard.to-step.html.destination-location-placeholder"
+                                     placeholderText="Dolna Bania"
+                                     i18n-errorMessageText="@@driver-dashboard.to-step.html.destination-location-error"
+                                     errorMessageText="Destination is required!">
+    </app-location-autocomplete-input>
+    <div class="actions">
+        <button mat-button
+                matStepperPrevious
+                i18n="@@button.back">Back</button>
+        <button mat-raised-button
+                color="accent"
+                matStepperNext
+                i18n="@@button.next">Next</button>
+    </div>
+</form>

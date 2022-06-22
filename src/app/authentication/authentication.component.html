@@ -1,0 +1,10 @@
+<mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Login"
+             i18n-label="@@authentication.login-tab">
+        <app-login [(emailValue)]="email"></app-login>
+    </mat-tab>
+    <mat-tab label="Register"
+             i18n-label="@@authentication.register-tab">
+        <app-register [(emailValue)]="email"></app-register>
+    </mat-tab>
+</mat-tab-group>

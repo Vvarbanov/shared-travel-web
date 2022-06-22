@@ -1,0 +1,8 @@
+<div *ngIf="pastTravels?.content?.length"
+     class="history-container bg-color-surface">
+    <ng-container *ngFor="let travel of pastTravels?.content">
+        <app-travel-history-card [travel]="travel"
+                                 class="bg-color-surface-secondary  txt-color-surface-secondary bold">
+        </app-travel-history-card>
+    </ng-container>
+</div>

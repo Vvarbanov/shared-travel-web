@@ -1,0 +1,25 @@
+:host {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    justify-content: center;
+
+    .mat-input-element:disabled {
+        color: var(--on-surrface);
+    }
+
+    .actions {
+        flex-grow: 0;
+        display: inline-flex;
+        justify-content: center;
+    }
+
+    mat-icon {
+        margin-left: 0.5rem;
+    }
+}
+
+@media screen and (min-width: 31rem) {
+    :host {
+        justify-content: start;
+    }
+}

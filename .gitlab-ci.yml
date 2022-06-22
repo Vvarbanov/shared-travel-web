@@ -1,0 +1,91 @@
+image: node:14-alpine
+
+stages:
+  - install
+  - test
+  - build
+  - package
+  - deploy
+
+install:
+  stage: install
+  only:
+    changes:
+      - package-lock.json
+  script:
+    - npm install
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules
+
+lint:
+  stage: test
+  script:
+    - npm link @angular/cli@12.2.9
+    - ng lint
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules
+    policy: pull
+
+test:
+  image: markhobson/node-chrome:latest
+  stage: test
+  script:
+    - npm link @angular/cli@12.2.9
+    - npm test -- --browsers=ChromeHeadless --watch=false
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules
+    policy: pull
+
+build_image:
+  stage: build
+  script:
+    - npm link @angular/cli@12.2.9
+    - npm run build -- --configuration=staging
+  artifacts:
+    expire_in: 2 hours
+    paths:
+      - $CI_PROJECT_DIR/dist
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules
+    policy: pull
+
+dockerize:
+  image: docker:stable
+  only:
+    - staging
+  stage: package
+  services:
+    - docker:dind
+  script:
+    - docker build -f Dockerfile --iidfile imageid.txt -t registry.heroku.com/shared-travel-web-staging-free/my-app .
+    - docker login -u _ -p $HEROKU_TOKEN registry.heroku.com
+    - docker push registry.heroku.com/shared-travel-web-staging-free/my-app
+  artifacts:
+    paths:
+      - imageid.txt
+
+deploy:
+  stage: deploy
+  only:
+    - staging
+  script:
+    - apk add --no-cache curl
+    - echo "Docker Image ID is $(cat imageid.txt)"
+    - |-
+      curl -X PATCH https://api.heroku.com/apps/shared-travel-web-staging-free/formation --header "Content-Type: application/json" --header "Accept: application/vnd.heroku+json; version=3.docker-releases" --header "Authorization: Bearer ${HEROKU_TOKEN}" --data '{ "updates": [ { "type": "web", "docker_image": "'$(cat imageid.txt)'" } ] }'

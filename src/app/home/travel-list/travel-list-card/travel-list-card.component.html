@@ -1,0 +1,39 @@
+<div>
+    {{travel?.driver?.firstName}} {{travel?.driver?.lastName}}
+</div>
+<div>
+    {{travel?.passengers?.length}}
+</div>
+<div>
+    {{travel?.from}}
+</div>
+<div>
+    {{travel?.to}}
+</div>
+<div>
+    {{travel?.departureDate}}
+</div>
+<div>
+    {{status}}
+</div>
+<div *ngIf="travel"
+     class="actions">
+    <button *ngIf="role === Role.NONE"
+            mat-raised-button
+            color="accent"
+            (click)="requestJoinTravel()"
+            i18n="@@button.join">Join</button>
+    <button *ngIf="role === Role.APPLICANT"
+            mat-raised-button
+            color="accent"
+            (click)="cancelJoinRequest()"
+            i18n="@@button.cancel">Cancel</button>
+    <button *ngIf="role === Role.PASSENGER"
+            mat-raised-button
+            color="accent"
+            (click)="leaveTravel()"
+            i18n="@@button.leave">Leave</button>
+    <button mat-raised-button
+            color="primary"
+            i18n="@@button.details">Details</button>
+</div>

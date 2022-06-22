@@ -1,0 +1,28 @@
+.panel {
+    margin: 1rem 5vw;
+
+    mat-expansion-panel-header {
+        .title {
+            flex-basis: 0;
+            align-items: center;
+        }
+
+        .description {
+            flex-basis: 0;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+}
+
+@media screen and (min-width: 40rem) {
+    .panel {
+        margin: 1rem 10vw;
+    }
+}
+
+@media screen and (min-width: 50rem) {
+    .panel {
+        margin: 1rem 15vw;
+    }
+}

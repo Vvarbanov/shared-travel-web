@@ -1,0 +1,30 @@
+<div class="container bg-color-surface-secondary">
+    <span class="name">
+        {{profile.firstName}} {{profile.lastName}}
+    </span>
+
+    <div *ngIf="showButtons || showOnlyCancel"
+         class="actions">
+        <button *ngIf="!showOnlyCancel"
+                mat-icon-button
+                (click)="eventResponse.emit(true)"
+                color="accent"
+                i18n-matTooltip="@@icon-button-accept"
+                matTooltip="Accept"
+                matTooltipPosition="after"
+                [matTooltipShowDelay]="1000"
+                aria-label="icon button used to accept travel join request">
+            <mat-icon>done</mat-icon>
+        </button>
+        <button mat-icon-button
+                (click)="eventResponse.emit(false)"
+                color="warn"
+                i18n-matTooltip="@@icon-button-reject"
+                matTooltip="Reject"
+                matTooltipPosition="after"
+                [matTooltipShowDelay]="1000"
+                aria-label="icon button used to reject travel join request">
+            <mat-icon>cancel</mat-icon>
+        </button>
+    </div>
+</div>

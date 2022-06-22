@@ -1,0 +1,29 @@
+<mat-stepper class="travel-stepper"
+             color="accent"
+             linear="true"
+             [orientation]="(stepperOrientation | async)!">
+    <mat-step [stepControl]="fromStep.formData"
+              i18n-label="@@driver-dashboard.create-travel.html.starting-location-step-label"
+              label="Starting Location">
+        <app-from-step #fromStep></app-from-step>
+    </mat-step>
+    <mat-step [stepControl]="toStep.formData"
+              i18n-label="@@driver-dashboard.create-travel.html.destination-location-step-label"
+              label="Destination Location">
+        <app-to-step #toStep></app-to-step>
+    </mat-step>
+    <mat-step [stepControl]="departureStep.formData"
+              i18n-label="@@driver-dashboard.create-travel.html.departure-step-label"
+              label="Departure">
+        <app-departure-step #departureStep></app-departure-step>
+    </mat-step>
+    <mat-step i18n-label="@@driver-dashboard.create-travel.html.review-step-label"
+              label="Review">
+        <app-review-step [travelObject]="{
+                            from: fromStep.formData?.value?.from,
+                            to: toStep.formData?.value?.to,
+                            departureDate: departureStep.formData?.value?.departureDate
+                        }">
+        </app-review-step>
+    </mat-step>
+</mat-stepper>

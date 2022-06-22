@@ -1,0 +1,45 @@
+.title {
+    text-align: center;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+
+    text-align: center;
+    justify-content: center;
+
+    gap: 1rem;
+    padding: 1rem;
+
+    .travel-details {
+        font-size: 1rem;
+    }
+
+    .profiles-container {
+        display: flex;
+        flex-direction: column;
+
+        gap: 1rem;
+        padding: 1rem;
+
+        .inner-container {
+            display: flex;
+            flex-direction: column;
+
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+
+            .container-title {
+                font-size: 1rem;
+            }
+        }
+    }
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}

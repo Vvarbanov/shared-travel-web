@@ -1,0 +1,36 @@
+<form [formGroup]="formData">
+    <mat-form-field appearance="fill"
+                    (click)="departurePicker.open()">
+        <mat-label i18n="@@driver-dashboard.departure-step.html.departure-label">Departure Time</mat-label>
+        <input matInput
+               readonly
+               [matDatepicker]="departurePicker"
+               formControlName="departureDate">
+        <mat-datepicker-toggle matSuffix
+                               [for]="departurePicker"></mat-datepicker-toggle>
+        <mat-datepicker #departurePicker
+                        type="datetime"
+                        [twelveHour]="false">
+            <mat-datepicker-actions>
+                <button mat-button
+                        matDatepickerCancel
+                        i18n="@@button.cancel">Cancel</button>
+                <button mat-raised-button
+                        color="primary"
+                        matDatepickerApply
+                        i18n="@@button.apply">Apply</button>
+            </mat-datepicker-actions>
+        </mat-datepicker>
+        <mat-error *ngIf="formData.value.departureDate?.invalid"
+                   i18n="@@driver-dashboard.departure-step.html.departure-error">Departure Time is required!</mat-error>
+    </mat-form-field>
+    <div class="actions">
+        <button mat-button
+                matStepperPrevious
+                i18n="@@button.back">Back</button>
+        <button mat-raised-button
+                color="accent"
+                matStepperNext
+                i18n="@@button.next">Next</button>
+    </div>
+</form>

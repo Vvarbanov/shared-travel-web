@@ -1,0 +1,103 @@
+<form [formGroup]="formGroup"
+      (ngSubmit)="register(formGroup.value)"
+      class="register-parent bg-color-surface">
+    <mat-form-field appearance="fill">
+        <mat-label i18n="@@authentication.register.html.first-name">First Name</mat-label>
+        <input [formControlName]="'firstName'"
+               matInput
+               placeholderText="Enter your first name"
+               i18n-placeholderText="@@authentication.register.html.first-name-placeholder">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label i18n="@@authentication.register.html.last-name">Last Name</mat-label>
+        <input [formControlName]="'lastName'"
+               matInput
+               placeholderText="Enter your last name"
+               i18n-placeholderText="@@authentication.register.html.last-name-placeholder">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label i18n="@@authentication.register.html.email">Email</mat-label>
+        <input [formControlName]="'email'"
+               [value]="emailValue"
+               matInput
+               placeholderText="Enter your email"
+               i18n-placeholderText="@@authentication.register.html.email-placeholder">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label i18n="@@authentication.register.html.password">Password</mat-label>
+        <input [formControlName]="'password'"
+               matInput
+               type="password"
+               placeholderText="Enter your password"
+               i18n-placeholderText="@@authentication.register.html.password-placeholder">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label i18n="@@authentication.register.html.password-confirmation">Confirm Password</mat-label>
+        <input [formControlName]="'passwordConfirmation'"
+               matInput
+               type="password"
+               placeholderText="Confirm your password"
+               i18n-placeholderText="@@authentication.register.html.password-confirmation-placeholder">
+    </mat-form-field>
+
+    <div *ngIf="formGroup.touched">
+        <mat-error *ngIf="formGroup.get('firstName')?.hasError('required') && formGroup.get('firstName')?.touched"
+                   i18n="@@authentication.register.html.first-name-required-error">First name is required! </mat-error>
+        <mat-error *ngIf="formGroup.get('lastName')?.hasError('required') && formGroup.get('lastName')?.touched"
+                   i18n="@@authentication.register.html.last-name-required-error"> Last name is required! </mat-error>
+        <mat-error *ngIf="formGroup.get('email')?.hasError('required') && formGroup.get('email')?.touched"
+                   i18n="@@authentication.register.html.email-required-error"> Email is required!</mat-error>
+        <mat-error *ngIf="formGroup.get('email')?.hasError('email') && formGroup.get('email')?.touched"
+                   i18n="@@authentication.register.html.email-format-error"> The email should be in proper format!
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('email')?.hasError('maxlength') && formGroup.get('email')?.touched"
+                   i18n="@@authentication.register.html.email-max-length-error"> Email should be a maximum of 255
+            symbols!
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('password')?.hasError('required') && formGroup.get('password')?.touched"
+                   i18n="@@authentication.register.html.password-required-error"> Password is required!</mat-error>
+        <mat-error *ngIf="formGroup.get('password')?.hasError('minlength') && !formGroup.get('password')?.hasError('required') && formGroup.get('password')?.touched"
+                   i18n="@@authentication.register.html.password-min-length-error"> Password should be at least 8
+            characters
+            long! </mat-error>
+        <mat-error *ngIf="formGroup.get('password')?.hasError('maxlength') && formGroup.get('password')?.touched"
+                   i18n="@@authentication.register.html.password-max-length-error">Password should be a maximum of 128
+            symbols!
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('password')?.hasError('nolower') && !formGroup.get('password')?.hasError('required') && !formGroup.get('password')?.hasError('minlength') && !formGroup.get('password')?.hasError('maxlength') && formGroup.get('password')?.touched"
+                   i18n="@@authentication.register.html.password-no-lower-error">Password should contain at least one
+            lower
+            case character! </mat-error>
+        <mat-error *ngIf="formGroup.get('password')?.hasError('nocapital') && !formGroup.get('password')?.hasError('required') && !formGroup.get('password')?.hasError('minlength') && !formGroup.get('password')?.hasError('maxlength') && formGroup.get('password')?.touched"
+                   i18n="@@authentication.register.html.password-no-capital-error">Password should contain at least one
+            upper
+            case character!</mat-error>
+        <mat-error *ngIf="formGroup.get('password')?.hasError('nonumber') && !formGroup.get('password')?.hasError('required') && !formGroup.get('password')?.hasError('minlength') && !formGroup.get('password')?.hasError('maxlength') && formGroup.get('password')?.touched"
+                   i18n="@@authentication.register.html.password-no-number-error">Password should contain at least one
+            number!
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('password')?.hasError('nospecial') && !formGroup.get('password')?.hasError('required') && !formGroup.get('password')?.hasError('minlength') && !formGroup.get('password')?.hasError('maxlength') && formGroup.get('password')?.touched"
+                   i18n="@@authentication.register.html.password-no-special-error"> Password should contain at least one
+            special character!</mat-error>
+        <mat-error *ngIf="formGroup.get('password')?.getError('authError') === 3"
+                   i18n="@@authentication.register.html.user-exists-error"> User with this email already exists!
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('password')?.getError('authError') === 2"
+                   i18n="@@authentication.register.html.server-error"> Unexpected error! </mat-error>
+        <mat-error *ngIf="formGroup.get('passwordConfirmation')?.hasError('required') &&
+            formGroup.get('passwordConfirmation')?.touched"
+                   i18n="@@authentication.register.html.password-confirmation-required-error"> Password confirmation is
+            required!</mat-error>
+        <mat-error *ngIf="formGroup.hasError('notmatched') && !formGroup.get('password')?.invalid && !formGroup.get('passwordConfirmation')?.invalid && formGroup.get('passwordConfirmation')?.touched"
+                   i18n="@@authentication.register.html.password-confirmation-missmatch-error">
+            Password confirmation does not match password!</mat-error>
+    </div>
+    <button [disabled]="formGroup?.invalid"
+            mat-raised-button
+            color="accent"
+            i18n="@@authentication.register.html.register">Register</button>
+</form>

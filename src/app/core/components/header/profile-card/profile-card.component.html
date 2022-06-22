@@ -1,0 +1,53 @@
+<button mat-raised-button
+        [matMenuTriggerFor]="profileMenu"
+        #profileMenuTrigger="matMenuTrigger"
+        class="profile-card-button">
+    <img class="profile-picture"
+         src="assets/images/default-profile-avatar.svg">
+    <span class="profile-name">
+        {{name}}
+    </span>
+    <mat-icon color="accent">
+        {{profileMenuTrigger.menuOpen ? 'expand_less' : 'expand_more'}}
+    </mat-icon>
+</button>
+
+<mat-menu #profileMenu="matMenu"
+          xPosition="before"
+          class="profile-menu">
+    <button mat-menu-item
+            (click)="navigate(MENU_URLS.myProfile)">
+        <span i18n="@@header.profile-card.html.view-profile">My Profile</span>
+        <mat-icon color="accent">account_circle</mat-icon>
+    </button>
+    <button mat-menu-item
+            [matMenuTriggerFor]="languageMenu">
+        <span i18n="@@header.profile-card.html.change-language">Language</span>
+        <mat-icon color="accent">language</mat-icon>
+    </button>
+    <button mat-menu-item
+            (click)="navigate(MENU_URLS.settings)">
+        <span i18n="@@header.profile-card.html.settings">Settings</span>
+        <mat-icon color="accent">settings</mat-icon>
+    </button>
+    <button mat-menu-item
+            (click)="logout()">
+        <span i18n="@@header.profile-card.html.log-out">Log Out</span>
+        <mat-icon color="accent">logout</mat-icon>
+    </button>
+</mat-menu>
+
+<mat-menu #languageMenu="matMenu"
+          xPosition="before">
+    <a *ngFor="let language of languages"
+       mat-menu-item
+       class="language-link"
+       [disabled]="language.disabled"
+       [href]="languageRedirect(language.code)">
+        {{language.displayName}}
+        <svg *ngIf="language.disabled"
+             viewBox="0 0 5 10">
+            <polygon points="0,0 5,5 0,10"></polygon>
+        </svg>
+    </a>
+</mat-menu>

@@ -1,0 +1,37 @@
+.new-travel-button {
+    position: relative;
+    transform: translateX(-50%);
+    left: 50%;
+
+    margin-top: 1rem;
+}
+
+.driver-travels-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    margin: 1rem;
+
+    app-driver-travel-history {
+        flex: 1;
+    }
+}
+
+@media screen and (min-width: 40rem) {
+    .driver-travels-container {
+        margin: 1rem 5vw;
+    }
+}
+
+@media screen and (min-width: 60rem) {
+    .driver-travels-container {
+        margin: 1rem 10vw;
+    }
+}
+
+@media screen and (min-width: 80rem) {
+    .driver-travels-container {
+        margin: 1rem 15vw;
+    }
+}

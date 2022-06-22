@@ -1,0 +1,15 @@
+@use '~@matheo/datepicker/theming'as datepicker;
+@import "~@angular/material/theming";
+
+// Include non-theme styles for core
+@include mat-core();
+
+// Define a theme
+$primary: mat-palette($mat-purple);
+$accent: mat-palette($mat-green, A200, A100, A400);
+$warn: mat-palette($mat-red, A200, A100, A700);
+$theme: mat-dark-theme($primary, $accent, $warn);
+
+// Include all theme styles for components
+@include angular-material-theme($theme);
+@include datepicker.mat-datepicker-theme($theme);

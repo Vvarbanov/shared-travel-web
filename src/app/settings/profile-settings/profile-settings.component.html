@@ -1,0 +1,23 @@
+<mat-expansion-panel class="panel">
+    <mat-expansion-panel-header>
+        <mat-panel-title class="title"
+                         i18n="@@settings.profile-settings.html.panel-title">
+            Profile Settings
+        </mat-panel-title>
+        <mat-panel-description class="description">
+            <ng-container i18n="@@settings.profile-settings.html.panel-description">Manage your profile settings
+            </ng-container>
+            <mat-icon>account_circle</mat-icon>
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <ng-container *ngIf="profileSettings">
+        <app-setting-boolean-row i18n-title="@@settings.profile-settings.html.email-visibility-title"
+                                 title="Email Visibility"
+                                 i18n-description="@@settings.profile-settings.html.email-visibility-description"
+                                 description="Do you want your email to be visible to others on your profile page"
+                                 [checked]="profileSettings!.emailVisible"
+                                 (toggleEvent)="updateSetting('emailVisible', $event)">
+        </app-setting-boolean-row>
+    </ng-container>
+</mat-expansion-panel>

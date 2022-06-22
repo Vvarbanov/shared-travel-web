@@ -1,0 +1,54 @@
+.actions {
+    margin-top: 0.5rem;
+}
+
+.review-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap-reverse;
+
+    .fields-container {
+        display: flex;
+        flex-direction: column;
+        max-width: fit-content;
+        gap: 1rem;
+
+        .field {
+            padding: 0.625rem;
+            border-radius: 0.25rem 0.25rem 0 0;
+            min-width: 18.5rem;
+
+            .label {
+                cursor: default;
+                display: block;
+                font-size: 0.725rem;
+                color: var(--on-surface);
+            }
+        }
+    }
+
+    .calendar {
+        pointer-events: none;
+
+        min-width: 18.5rem;
+        border-radius: 0.25rem;
+        overflow: hidden;
+
+        .label {
+            font-size: 0.725rem;
+            background-color: var(--primary);
+            color: var(--on-surface-secondary);
+            padding: 0.625rem 0.75rem 0 0.75rem;
+        }
+    }
+}
+
+@media screen and (min-width: 50rem) {
+    .review-container {
+        .fields-container {
+            .field {
+                min-width: 12rem;
+            }
+        }
+    }
+}

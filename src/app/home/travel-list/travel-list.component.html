@@ -1,0 +1,18 @@
+<app-find-travel></app-find-travel>
+<div *ngIf="travelsPage?.content?.length && travelsPage?.content!.length > 0"
+     class="travel-list-container">
+    <ng-container *ngFor="let travel of travelsPage?.content">
+        <app-travel-list-card [travel]="travel"
+                              [profile]="profile"
+                              class="bg-color-surface"></app-travel-list-card>
+    </ng-container>
+
+    <mat-paginator [length]="travelsPage?.totalElements"
+                   [pageSize]="travelsPage?.size"
+                   [pageSizeOptions]="pageOptions"
+                   (page)="onPageChange($event)"
+                   i18n-aria-label="@@paginator.aria-label"
+                   aria-label="Select page">
+    </mat-paginator>
+</div>
+<mat-spinner *ngIf="showSpinner"></mat-spinner>

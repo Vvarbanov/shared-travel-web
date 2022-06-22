@@ -1,0 +1,29 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+
+    padding-top: 1rem;
+
+    form {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        gap: 1rem;
+
+        padding: 1rem;
+        padding-bottom: 0;
+
+        mat-form-field {
+            flex: 1;
+        }
+
+        .button-container {
+            display: inline-flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+
+            padding-bottom: 1rem;
+        }
+    }
+}

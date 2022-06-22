@@ -1,0 +1,26 @@
+<div class="title" mat-dialog-title>{{dialogData.title}}</div>
+<div class="content-container"
+     mat-dialog-content>
+    <span class="travel-details"
+          [innerHtml]="dialogData.message | boldText">
+    </span>
+    <div class="profiles-container">
+        <div class="inner-container pending-container bg-color-surface-secondary-dark">
+            <strong class="container-title"
+                    i18n="@@join-request-dialog.html.pending">Pending</strong>
+            <ng-container *ngFor="let notification of dialogData.notifications">
+                <app-profile-small [profile]="notification.passenger"
+                                   [showButtons]="notification.status === JoinRequestStatus.PENDING"
+                                   (eventResponse)="handlePending(notification, $event)"></app-profile-small>
+            </ng-container>
+        </div>
+        <div class="inner-container joined-container bg-color-surface-secondary-dark">
+            <strong class="container-title"
+                    i18n="@@join-request-dialog.html.joined">Joined</strong>
+            <app-profile-small *ngFor="let passenger of dialogData.travel.passengers"
+                               [profile]="passenger"
+                               [showOnlyCancel]="true"
+                               (eventResponse)="kickPassenger(passenger)"></app-profile-small>
+        </div>
+    </div>
+</div>

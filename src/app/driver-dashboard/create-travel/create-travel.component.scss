@@ -1,0 +1,27 @@
+.travel-stepper {
+    margin: 1rem 1rem;
+}
+
+@media screen and (min-width: 50rem) {
+    .travel-stepper {
+        margin: 1rem 2.5rem;
+    }
+}
+
+@media screen and (min-width: 60rem) {
+    .travel-stepper {
+        margin: 1rem 5rem;
+    }
+}
+
+@media screen and (min-width: 70rem) {
+    .travel-stepper {
+        margin: 1rem 10rem;
+    }
+}
+
+@media screen and (min-width: 90rem) {
+    .travel-stepper {
+        margin: 1rem 15rem;
+    }
+}

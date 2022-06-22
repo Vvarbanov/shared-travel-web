@@ -1,0 +1,24 @@
+<div class="profile-container bg-color-surface">
+    <ng-container *ngIf="profile">
+        <img class="profile-picture"
+             src="assets/images/default-profile-avatar.svg">
+        <div class="fields-container">
+            <div class="name field bg-color-surface-secondary-dark">
+                <span class="label"
+                      i18n="@@profile.user-profile.html.profile-name">Name</span>
+                {{getFullName()}}
+            </div>
+            <div *ngIf="profile.profileSettings.emailVisible"
+                 class="email field bg-color-surface-secondary-dark">
+                <span class="label"
+                      i18n="@@profile.user-profile.html.profile-email">Email</span>
+                {{profile!.email}}
+            </div>
+            <div class="rating field bg-color-surface-secondary-dark">
+                <span class="label"
+                      i18n="@@profile.user-profile.html.profile-rating">Rating</span>
+                4.6/5
+            </div>
+        </div>
+    </ng-container>
+</div>

@@ -1,0 +1,12 @@
+<div *ngIf="travels"
+     class="travels-container bg-color-surface">
+    <div class="title bold">
+        {{title}}
+    </div>
+    <ng-container *ngFor="let travel of travels">
+        <app-travel-history-card [travel]="travel"
+                                 (click)="openTravelDetails(travel)"
+                                 class="bg-color-surface-secondary txt-color-surface-secondary bold">
+        </app-travel-history-card>
+    </ng-container>
+</div>

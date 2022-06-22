@@ -1,0 +1,13 @@
+<button mat-raised-button
+        class="new-travel-button"
+        i18n="@@driver-dashboard.driver-dashboard.html.button.new-travel"
+        (click)="navigateToCreateTravel()">New Travel</button>
+
+<div class="driver-travels-container">
+    <app-driver-travel-history [travels]="futureTravels"
+                               i18n-title="@@driver-dashboard.driver-dashboard.html.future-travel-title"
+                               title="Future Travels"></app-driver-travel-history>
+    <app-driver-travel-history [travels]="pastTravels"
+                               i18n-title="@@driver-dashboard.driver-dashboard.html.past-travel-title"
+                               title="Past Travels"></app-driver-travel-history>
+</div>

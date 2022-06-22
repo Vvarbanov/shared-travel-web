@@ -1,0 +1,9 @@
+.travel-list-container {
+    padding: 1rem max(1rem, 10vw);
+}
+
+mat-spinner {
+    position: absolute;
+    inset: 50% 50%;
+    transform: translate(-50%, -50%);
+}

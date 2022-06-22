@@ -1,0 +1,38 @@
+// Profile Menu Styling for material menu component
+// Align to the right and show arrow on the left side
+.profile-menu .mat-menu-item {
+    text-align: end;
+    padding-right: 16px;
+    padding-left: 32px;
+
+    .mat-icon {
+        margin-right: 0px;
+        margin-left: 16px;
+    }
+
+    .mat-icon-no-color,
+    .mat-menu-submenu-icon {
+        right: 0;
+        left: 16px;
+        transform: rotate(180deg) translateY(50%);
+    }
+}
+
+// Notification Menu Styling for material menu component
+// Give max-height so it can be scrolled and not fit the screen
+.notification-menu.mat-menu-panel {
+    max-height: 60vh;
+    max-width: 13.8675rem;
+
+    .mat-menu-item {
+        line-height: 1.5rem;
+        height: auto;
+        margin-bottom: 0.5rem;
+        margin-top: 0.5rem;
+    }
+}
+
+// Override all mat stepper bhaviour
+.mat-step-header {
+    margin-bottom: 1rem;
+}

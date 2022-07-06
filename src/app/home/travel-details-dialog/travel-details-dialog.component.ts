@@ -1,7 +1,8 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { PROFILE_MODULE_URL } from 'src/app/core/constants';
 import { TravelHttpService } from 'src/app/core/services/http/travel-http.service';
 import { Profile } from 'src/app/profile/models/profile.model';
@@ -12,7 +13,6 @@ import { DateService } from '../../core/services/date/date.service';
 import { NotificationHttpService } from '../../core/services/http/notification-http.service';
 import { ProfileService } from '../../profile/services/profile.service';
 import { TravelStatusEnum } from '../travel-list/models/travel-status.enum';
-import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-travel-details-dialog',
@@ -55,39 +55,34 @@ export class TravelDetailsDialogComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl(`${ PROFILE_MODULE_URL }/${ this.dialogData.travel.driver.id }`);
     }
 
+    leaveTravel(): void {
+        this.travelHttpService.leaveTravel(this.dialogData.travel.id).subscribe({
+            next: () => {
+                this.dialogData.travel.passengers = this.dialogData.travel.passengers.filter(p => p.id !== this.profile?.id);
+                this.openSnackbar($localize`:@@travel-details-dialog.snackbar.leave:You have successfully left the travel!`);
+            },
+            error: e => console.error(e)
+        });
+    }
+
     kickPassenger(passenger: Profile): void {
         if (passenger.id === this.profile?.id) {
-            this.travelHttpService.leaveTravel(this.dialogData.travel.id).subscribe({
-                next: () => {
-                    this.dialogData.travel.passengers = this.dialogData.travel.passengers.filter(p => p !== passenger);
-                    this.snackBar.open($localize`:@@travel-details-dialog.snackbar.leave:You have successfully left the travel!`,
-                        $localize`:@@snackbar.close:Close`, {
-                        duration: 3000
-                    });
-                },
-                error: e => console.error(e)
-            });
-        } else {
-            this.travelHttpService.kickPassenger(this.dialogData.travel.id, passenger.id).subscribe({
-                next: () => {
-                    this.dialogData.travel.passengers = this.dialogData.travel.passengers.filter(p => p !== passenger);
-                    this.snackBar.open($localize`:@@travel-details-dialog.snackbar.kick:You have successfully kicked the passenger!`,
-                        $localize`:@@snackbar.close:Close`, {
-                        duration: 3000
-                    });
-                },
-                error: e => console.error(e)
-            });
+
         }
+
+        this.travelHttpService.kickPassenger(this.dialogData.travel.id, passenger.id).subscribe({
+            next: () => {
+                this.dialogData.travel.passengers = this.dialogData.travel.passengers.filter(p => p.id !== passenger.id);
+                this.openSnackbar($localize`:@@travel-details-dialog.snackbar.kick:You have successfully kicked the passenger!`);
+            },
+            error: e => console.error(e)
+        });
     }
 
     cancelTravel(): void {
         this.travelHttpService.cancelTravel(this.dialogData.travel.id).subscribe({
             next: _ => {
-                this.snackBar.open($localize`:@@travel-details-dialog.snackbar.cancel:You have successfully cancelled the travel!`,
-                    $localize`:@@snackbar.close:Close`, {
-                    duration: 3000
-                });
+                this.openSnackbar($localize`:@@travel-details-dialog.snackbar.cancel:You have successfully cancelled the travel!`);
                 this.dialogRef.close();
             }, error: e => console.error(e)
         });
@@ -97,27 +92,6 @@ export class TravelDetailsDialogComponent implements OnInit, OnDestroy {
         $event ? this.accept(notification) : this.reject(notification);
     }
 
-    isUserDriverOrPassenger(passenger: Profile): boolean {
-        return this.profile?.id === this.dialogData.travel.driver.id || passenger.id === this.profile?.id;
-    }
-
-    isUserDriver(): boolean {
-        return this.profile?.id === this.dialogData.travel.driver.id;
-    }
-
-    isTravelPending(): boolean {
-        return this.dialogData.travel.status === this.TravelStatus.PENDING;
-    }
-
-    isTravelFuture(): boolean {
-        return this.dialogData.travel.departureDate.getTime() > new Date().getTime();
-    }
-
-    isTravelNotFull(): boolean {
-        return this.dialogData.travel.passengers!.length < this.dialogData.travel.vehicle.seats;
-    }
-
-
     private accept(notification: JoinRequestNotification): void {
         this.notificationHttpService.acceptJoinRequestNotification(notification.id)
             .subscribe({
@@ -125,10 +99,7 @@ export class TravelDetailsDialogComponent implements OnInit, OnDestroy {
                     notification.status = JoinRequestNotificationStatusEnum.APPROVED;
                     this.dialogData.travel.passengers.push(notification.passenger);
                     this.dialogData.notifications = this.dialogData.notifications.filter(n => n !== notification);
-                    this.snackBar.open($localize`:@@travel-details-dialog.snackbar.approve:You have successfully approved the application!`,
-                        $localize`:@@snackbar.close:Close`, {
-                        duration: 3000
-                    });
+                    this.openSnackbar($localize`:@@travel-details-dialog.snackbar.approve:You have successfully approved the application!`);
                 },
                 error: e => console.error(e)
             });
@@ -139,10 +110,7 @@ export class TravelDetailsDialogComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: () => {
                     notification.status = JoinRequestNotificationStatusEnum.REJECTED;
-                    this.snackBar.open($localize`:@@travel-details-dialog.snackbar.reject:You have successfully rejected the application!`,
-                        $localize`:@@snackbar.close:Close`, {
-                        duration: 3000
-                    });
+                    this.openSnackbar($localize`:@@travel-details-dialog.snackbar.reject:You have successfully rejected the application!`);
                 },
                 error: e => console.error(e)
             });
@@ -170,7 +138,35 @@ export class TravelDetailsDialogComponent implements OnInit, OnDestroy {
         }
     }
 
+    private openSnackbar(message: string): void {
+        this.snackBar.open(message, $localize`:@@snackbar.close:Close`, { duration: 3000 });
+    }
+
     getTimeStatus(): string {
         return this.isTravelFuture() ? $localize`:@@travel-time-status.future:FUTURE` : $localize`:@@travel-time-status.past:PAST`;
+    }
+
+    isUserDriverOrPassenger(passenger: Profile): boolean {
+        return this.profile?.id === this.dialogData.travel.driver.id || passenger.id === this.profile?.id;
+    }
+
+    isUserDriver(): boolean {
+        return this.profile?.id === this.dialogData.travel.driver.id;
+    }
+
+    isUserPassenger(passenger: Profile): boolean {
+        return passenger.id === this.profile?.id;
+    }
+
+    isTravelPending(): boolean {
+        return this.dialogData.travel.status === this.TravelStatus.PENDING;
+    }
+
+    isTravelFuture(): boolean {
+        return this.dialogData.travel.departureDate.getTime() > new Date().getTime();
+    }
+
+    isTravelNotFull(): boolean {
+        return this.dialogData.travel.passengers!.length < this.dialogData.travel.vehicle.seats;
     }
 }

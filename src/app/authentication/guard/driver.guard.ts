@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AUTH_TOKEN_KEY, BASE_ROUTER_URL } from '../../core/constants';
-import { LocalStorageService } from '../../core/services/local-storage/local-storage.service';
+import { BASE_ROUTER_URL } from '../../core/constants';
+import { AuthorityEnum } from '../models/authority.enum';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class LoginGuard implements CanActivate {
+export class DriverGuard implements CanActivate {
     constructor(
-        private localStorageService: LocalStorageService,
+        private authenticationService: AuthenticationService,
         private router: Router
     ) { }
 
+
     canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        if (this.localStorageService.get(AUTH_TOKEN_KEY)) {
+        if (!this.authenticationService.hasAuthority(AuthorityEnum.DRIVER)) {
             return this.router.parseUrl(BASE_ROUTER_URL);
         }
 

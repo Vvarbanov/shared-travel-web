@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PROFILE_MODULE_URL, SETTINGS_MODULE_URL, BASE_ROUTER_URL, DRIVER_DASHBOARD_MODULE_URL, LOGIN_URL } from './core/constants';
 import { AuthGuard } from './authentication/guard/auth.guard';
 import { LoginGuard } from './authentication/guard/login.guard';
+import { DriverGuard } from './authentication/guard/driver.guard';
 
 const routes: Routes = [
     {
@@ -23,7 +24,7 @@ const routes: Routes = [
     {
         path: DRIVER_DASHBOARD_MODULE_URL,
         loadChildren: () => import('./driver-dashboard/driver-dashboard.module').then(m => m.DriverDashboardModule),
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard, DriverGuard]
     },
     {
         path: LOGIN_URL,

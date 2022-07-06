@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, UrlTree, Router } from '@angular/router';
+import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { LocalStorageService } from '../../core/services/local-storage/local-storage.service';
 import { AUTH_TOKEN_KEY, LOGIN_ROUTER_URL } from '../../core/constants';
+import { LocalStorageService } from '../../core/services/local-storage/local-storage.service';
 
 @Injectable({
     providedIn: 'root'

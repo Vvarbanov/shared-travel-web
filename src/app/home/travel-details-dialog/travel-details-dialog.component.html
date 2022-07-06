@@ -65,7 +65,8 @@
                                [profile]="passenger"
                                [showOnlyCancel]="true"
                                [showButtons]="isTravelPending()  && isUserDriverOrPassenger(passenger) && isTravelFuture()"
-                               (eventResponse)="kickPassenger(passenger)"></app-profile-small>
+                               (eventResponse)="isUserPassenger(passenger)? leaveTravel(): kickPassenger(passenger)">
+            </app-profile-small>
         </div>
     </div>
     <button *ngIf="isTravelPending() && isUserDriver() && isTravelFuture()"

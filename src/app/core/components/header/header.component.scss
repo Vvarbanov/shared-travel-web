@@ -25,9 +25,14 @@ header {
 
             img {
                 cursor: pointer;
+                height: 100%;
             }
 
             .logo-big {
+                display: none;
+            }
+
+            .logo-medium {
                 display: none;
             }
         }
@@ -41,11 +46,27 @@ header {
     }
 }
 
-@media screen and (min-width: 22rem) {
+@media screen and (min-width: 20rem) {
     header {
         .header-container {
             .logo-container {
                 .logo-small {
+                    display: none;
+                }
+
+                .logo-medium {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 40rem) {
+    header {
+        .header-container {
+            .logo-container {
+                .logo-medium {
                     display: none;
                 }
 

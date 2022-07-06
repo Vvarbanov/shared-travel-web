@@ -1,4 +1,4 @@
 export const environment = {
-    production: false,
+    production: true,
     apiUrl: 'https://shared-travel-api-staging-free.herokuapp.com'
 };

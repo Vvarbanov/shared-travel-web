@@ -18,7 +18,6 @@ export class AppComponent implements OnInit {
 
     private registerAppEvents() {
         this.eventService.registerEvent(Events.loginSuccessful);
-        this.eventService.registerEvent(Events.profileDataUpdated);
         this.eventService.registerEvent(Events.logoutSuccessful);
     }
 }

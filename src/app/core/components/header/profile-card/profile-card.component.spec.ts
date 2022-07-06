@@ -1,17 +1,20 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ProfileCardComponent } from './profile-card.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MatMenuModule } from '@angular/material/menu';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ProfileCardComponent } from './profile-card.component';
+import { ProfileService } from '../../../../profile/services/profile.service';
 
 describe('ProfileCardComponent', () => {
     let component: ProfileCardComponent;
     let fixture: ComponentFixture<ProfileCardComponent>;
 
     beforeEach(async(() => {
+        const profileServiceSpy = jasmine.createSpyObj('ProfileService', ['getProfile']);
+        profileServiceSpy.getProfile.and.returnValue({});
+
         TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
@@ -19,8 +22,11 @@ describe('ProfileCardComponent', () => {
                 MatMenuModule
             ],
             declarations: [ProfileCardComponent],
-            providers: [
-                { provide: MatDialog, useValue: {} }
+            providers: [{
+                provide: ProfileService,
+                useValue: profileServiceSpy
+            },
+            { provide: MatDialog, useValue: {} }
             ]
         })
             .compileComponents();

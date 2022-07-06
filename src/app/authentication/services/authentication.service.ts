@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { AUTH_TOKEN_KEY, PROFILE_TOKEN_KEY } from 'src/app/core/constants';
+import { AUTH_TOKEN_KEY, DRIVER_DASHBOARD_ROUTER_URL, PROFILE_TOKEN_KEY } from 'src/app/core/constants';
 import { Events } from 'src/app/core/models/events.model';
 import { EventBrokerService } from 'src/app/core/services/events/event-broker.service';
 import { LocalStorageService } from 'src/app/core/services/local-storage/local-storage.service';
@@ -11,6 +11,9 @@ import { RegisterRequest } from '../models/register-request.model';
 import { AuthenticationHttpService } from './authentication-http.service';
 import { ChangePasswordRequest } from '../models/change-password-request.model';
 import { MatDialog } from '@angular/material/dialog';
+import { Principal } from '../models/principal.model';
+import { AuthorityEnum } from '../models/authority.enum';
+import { RegisterAsDriverRequest } from 'src/app/core/components/register-driver-dialog/models/register-driver-request.model';
 
 @Injectable({
     providedIn: 'root'
@@ -30,10 +33,32 @@ export class AuthenticationService {
         return this.authErrorSubject.asObservable();
     }
 
+    hasAuthority(authority: AuthorityEnum): boolean {
+        const jwt = this.localStorageService.get(AUTH_TOKEN_KEY);
+
+        if (!jwt) {
+            return false;
+        }
+
+        const principal = this.extractPrincipal(jwt);
+
+        for (const principalAuthority of principal.authorities) {
+            if (principalAuthority === authority) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private extractPrincipal(jwt: String): Principal {
+        return JSON.parse(atob(jwt.split('.')[1]));
+    }
+
     login(loginRequest: LoginRequest): void {
         this.authenticationHttpService.login(loginRequest)
             .subscribe({
-                next: jwt => this.saveAuthentication(jwt),
+                next: jwt => this.saveAuthenticationAndNavigateHome(jwt),
                 error: error => {
                     switch (error.status) {
                         case 401:
@@ -50,11 +75,27 @@ export class AuthenticationService {
     register(registerRequest: RegisterRequest): void {
         this.authenticationHttpService.register(registerRequest)
             .subscribe({
-                next: jwt => this.saveAuthentication(jwt),
+                next: jwt => this.saveAuthenticationAndNavigateHome(jwt),
                 error: error => {
                     switch (error.status) {
                         case 400:
                             this.authErrorSubject.next(AuthError.BadCredentials);
+                            break;
+                        default:
+                            this.authErrorSubject.next(AuthError.AuthServerError);
+                    }
+                }
+            });
+    }
+
+    registerAsDriver(registerAsDriverRequest: RegisterAsDriverRequest): void {
+        this.authenticationHttpService.registerAsDriver(registerAsDriverRequest)
+            .subscribe({
+                next: jwt => this.saveAuthenticationAndNavigateToUrl(jwt, DRIVER_DASHBOARD_ROUTER_URL),
+                error: error => {
+                    switch (error.status) {
+                        case 400:
+                            this.authErrorSubject.next(AuthError.BadRequest);
                             break;
                         default:
                             this.authErrorSubject.next(AuthError.AuthServerError);
@@ -83,14 +124,22 @@ export class AuthenticationService {
     logout(): void {
         this.dialog.closeAll();
         this.localStorageService.remove(AUTH_TOKEN_KEY);
-        this.localStorageService.remove(PROFILE_TOKEN_KEY);
         this.eventService.publishEvent(Events.logoutSuccessful);
         this.redirectService.navigateLogin();
     }
 
-    private saveAuthentication(jwt: string): void {
+    private saveAuthenticationAndNavigateHome(jwt: string): void {
+        this.saveAuthentication(jwt);
+        this.redirectService.navigateHome();
+    }
+
+    private saveAuthenticationAndNavigateToUrl(jwt: string, url: string) {
+        this.saveAuthentication(jwt);
+        this.redirectService.navigateToUrl(url);
+    }
+
+    private saveAuthentication(jwt: string) {
         this.localStorageService.set(AUTH_TOKEN_KEY, jwt);
         this.eventService.publishEvent(Events.loginSuccessful);
-        this.redirectService.navigateHome();
     }
 }

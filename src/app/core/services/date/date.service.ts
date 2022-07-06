@@ -12,4 +12,9 @@ export class DateService {
         const dateFormat = $localize`:@@date-service.ts.date-format-long-simple:MMM dd \'at\' HH:mm`;
         return this.datePipe.transform(date, dateFormat);
     }
+
+    formatDateLongYearPretty(date: Date): string | null {
+        const dateFormat = $localize`:@@date-service.ts.date-format-long-year:MMM dd YY \'at\' HH:mm`;
+        return this.datePipe.transform(date, dateFormat);
+    }
 }

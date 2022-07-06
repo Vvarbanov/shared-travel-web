@@ -8,6 +8,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { PasswordChangeDialogComponent } from './components/password-change-dialog/password-change-dialog.component';
+import { DirectiveModule } from '../core/services/directives/directive.module';
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import { PasswordChangeDialogComponent } from './components/password-change-dial
         CommonModule,
         MaterialModule,
         ReactiveFormsModule,
-        AuthenticationRoutingModule
+        AuthenticationRoutingModule,
+        DirectiveModule,
     ]
 })
 export class AuthenticationModule { }

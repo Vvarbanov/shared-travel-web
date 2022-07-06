@@ -1,11 +1,10 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
-import { ReviewStepComponent } from './review-step.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { LocationTranslatePipeModule } from '../../../../core/services/pipes/location-translate.pipe';
+import { ReviewStepComponent } from './review-step.component';
 
 describe('ReviewStepComponent', () => {
     let component: ReviewStepComponent;
@@ -15,7 +14,8 @@ describe('ReviewStepComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
-                RouterTestingModule
+                RouterTestingModule,
+                LocationTranslatePipeModule
             ],
             declarations: [ReviewStepComponent]
         })

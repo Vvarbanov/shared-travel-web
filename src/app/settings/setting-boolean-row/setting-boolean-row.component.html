@@ -1,6 +1,6 @@
 <div class="setting-container">
     <span class="setting-title">{{title}}</span>
     <span class="setting-description txt-color-surface">{{description}}</span>
-    <mat-slide-toggle (change)="toggle($event.checked)"
+    <mat-slide-toggle (change)="toggleEvent.emit($event.checked)"
                       [checked]="checked"></mat-slide-toggle>
 </div>

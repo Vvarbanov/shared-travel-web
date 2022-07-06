@@ -1,4 +1,5 @@
 export enum TravelStatusEnum {
     PENDING = "PENDING",
-    CANCELED = "CANCELED"
+    CANCELED = "CANCELED",
+    FINISHED = "FINISHED"
 }

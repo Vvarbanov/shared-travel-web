@@ -1,8 +1,8 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async, inject } from '@angular/core/testing';
-import { NotificationBellService } from './notification-bell.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { inject, TestBed } from '@angular/core/testing';
+import { NotificationBellService } from './notification-bell.service';
 
 describe('Service: NotificationBell', () => {
     beforeEach(() => {

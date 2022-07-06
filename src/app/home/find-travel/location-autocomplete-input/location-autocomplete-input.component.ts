@@ -20,7 +20,6 @@ export class LocationAutocompleteInputComponent implements OnInit, OnDestroy {
     subscriptions: Subscription = new Subscription();
     formControl: FormControl = new FormControl();
 
-    options: TravelLocation[];
     filteredOptions: TravelLocation[];
     selectedLocation: string | undefined;
 
@@ -29,7 +28,7 @@ export class LocationAutocompleteInputComponent implements OnInit, OnDestroy {
         this.placeholderText = '';
         this.errorMessageText = '';
 
-        this.options = this.filteredOptions = this.locationsService.getAllLocations();
+        this.filteredOptions = [];
     }
 
     ngOnInit(): void {
@@ -38,7 +37,7 @@ export class LocationAutocompleteInputComponent implements OnInit, OnDestroy {
                 next: value => {
                     const name = this._getName(value);
 
-                    this.filteredOptions = name ? this._filter(name) : this.options.slice(0, AUTOCOMPLETE_MAX_FIELDS);
+                    this.filteredOptions = name ? this._filter(name) : [];
                 }
             })
         );
@@ -61,11 +60,7 @@ export class LocationAutocompleteInputComponent implements OnInit, OnDestroy {
     }
 
     private _filter(value: string): TravelLocation[] {
-        const filterValue = value.toLowerCase();
-
-        const locations = this.options.filter(option => {
-            return option.name.toLowerCase().includes(filterValue);
-        }).slice(0, AUTOCOMPLETE_MAX_FIELDS);
+        const locations = this.locationsService.getFilteredLocations(value);
 
         if (locations.length == 1 && locations[0].name === value) {
             this.selectLocation(locations[0].code);

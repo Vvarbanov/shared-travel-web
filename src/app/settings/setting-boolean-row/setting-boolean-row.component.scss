@@ -1,6 +1,7 @@
 .setting-container {
     display: flex;
     flex: 1;
+    padding: 0.25rem 0;
 
     .setting-title {
         display: flex;
@@ -11,10 +12,16 @@
     }
 
     .setting-description {
-        display: flex;
+        display: none;
         align-items: center;
         justify-content: space-between;
         flex-basis: 0;
         flex-grow: 2;
+    }
+}
+
+@media screen and (min-width: 20rem) {
+    .setting-container .setting-description {
+        display: flex;
     }
 }

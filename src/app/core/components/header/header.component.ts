@@ -1,12 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DRIVER_DASHBOARD_ROUTER_URL, BASE_ROUTER_URL, DRIVER_DASHBOARD_MODULE_URL, AUTH_TOKEN_KEY, LOGIN_ROUTER_URL } from '../../constants';
 import { Location } from '@angular/common';
-import { LocalStorageService } from '../../services/local-storage/local-storage.service';
-import { Events } from '../../models/events.model';
-import { RedirectService } from '../../services/redirects/redirect.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { AuthorityEnum } from 'src/app/authentication/models/authority.enum';
+import { AuthenticationService } from 'src/app/authentication/services/authentication.service';
+import { AUTH_TOKEN_KEY, BASE_ROUTER_URL, DRIVER_DASHBOARD_MODULE_URL, DRIVER_DASHBOARD_ROUTER_URL } from '../../constants';
+import { Events } from '../../models/events.model';
 import { EventBrokerService } from '../../services/events/event-broker.service';
-import { ProfileService } from 'src/app/profile/services/profile.service';
+import { LocalStorageService } from '../../services/local-storage/local-storage.service';
+import { RedirectService } from '../../services/redirects/redirect.service';
+import { RegisterDriverDialogComponent } from '../register-driver-dialog/register-driver-dialog.component';
 
 @Component({
     selector: 'app-header',
@@ -34,7 +37,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         private redirectService: RedirectService,
         private localStorageService: LocalStorageService,
         private eventService: EventBrokerService,
-        private profileService: ProfileService
+        private authenticationService: AuthenticationService,
+        private dialog: MatDialog
     ) {
         this.buttonUrl = this.locationIncludesDriverDashboard() ? this.URL_OPTIONS.passenger : this.URL_OPTIONS.driver;
         this.buttonText = this.locationIncludesDriverDashboard() ? this.TEXT_OPTIONS.passenger : this.TEXT_OPTIONS.driver;
@@ -45,14 +49,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.userAuthenticated = this.localStorageService.get(AUTH_TOKEN_KEY) ? true : false;
         this.subscriptions.add(
             this.eventService.getEvent(Events.loginSuccessful)?.subscribe(() => {
+                this.resetButton();
                 this.userAuthenticated = true;
-                this.profileService.saveCustomerProfile();
             })
         );
         this.subscriptions.add(
-            this.eventService.getEvent(Events.logoutSuccessful)?.subscribe(() =>
-                this.userAuthenticated = false)
-        );
+            this.eventService.getEvent(Events.logoutSuccessful)?.subscribe(() => {
+                this.userAuthenticated = false;
+                this.resetButton();
+            }));
     }
 
     ngOnDestroy(): void {
@@ -69,12 +74,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     goToLogin(): void {
+        this.resetButton();
         this.redirectService.navigateLogin();
     }
 
     changeDashboard(): void {
-        this.navigateToUrl(this.buttonUrl);
-        this.updateButton();
+        if (this.authenticationService.hasAuthority(AuthorityEnum.DRIVER)) {
+            this.navigateToUrl(this.buttonUrl);
+            this.updateButton();
+
+            return;
+        }
+
+        this.dialog.open(RegisterDriverDialogComponent);
     }
 
     private navigateToUrl(url: string): void {

@@ -7,19 +7,24 @@
     --primary: #9c27b0;
     --on-primary: #fff;
     --accent: #69f0ae;
+    --accent-secondary: rgba(105, 240, 174, 0.6);
     --on-accent: #fff;
     --surface: #2a2a2e;
     --on-surface: #bfbfbf;
     --surface-secondary: rgba(255, 255, 255, 0.1);
     --surface-secondary-dark: rgba(255, 255, 255, 0.05);
+    --surface-secondary-transparent: rgba(42, 42, 46, 0.9);
     --on-surface-secondary: #dadada;
     --error: #f44336;
+    --error-secondary: rgba(244, 67, 54, 0.7);
     --on-error: #fff;
     --warning: #f6bb42;
     --on-warning: #fff;
     --primary-text: #fff;
     --secondary-text: #bfbfbf;
     --surface-hover: rgba(255, 255, 255, 0.2);
+
+    --header-height: 3.5rem;
 }
 
 /* Remove default margin */
@@ -45,7 +50,6 @@ ol[role="list"] {
 /* Set default box sizing */
 html,
 body {
-    height: 100%;
     box-sizing: border-box;
     scroll-behavior: smooth;
 }
@@ -85,6 +89,10 @@ body {
     background-color: var(--surface-secondary-dark);
 }
 
+.bg-color-surface-secondary-transparent {
+    background-color: var(--surface-secondary-transparent);
+}
+
 .txt-color-surface-secondary {
     color: var(--on-surface-secondary);
 }
@@ -101,12 +109,20 @@ body {
     background-color: var(--accent);
 }
 
+.bg-color-accent-secondary {
+    background-color: var(--accent-secondary);
+}
+
 .txt-color-accent {
     color: var(--on-accent);
 }
 
 .bg-color-error {
     background-color: var(--error);
+}
+
+.bg-color-error-secondary {
+    background-color: var(--error-secondary);
 }
 
 .txt-color-error {

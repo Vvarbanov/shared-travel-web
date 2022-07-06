@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { Travel } from 'src/app/home/travel-list/models/travel.model';
 import { TravelHttpService } from '../../core/services/http/travel-http.service';
 
@@ -11,9 +12,8 @@ export class DriverDashboardService {
 
     getDriverTravels(inFuture: boolean, saveVariable: Travel[]): void {
         this.travelHttpService.getMyTravels(true, inFuture).subscribe({
-            next: res => {
-                saveVariable.push(...res.content);
-            }, error: e => console.error(e)
+            next: res => saveVariable.push(...res.content),
+            error: e => console.error(e)
         });
     }
 }

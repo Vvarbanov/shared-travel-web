@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
-import { DriverDashboardComponent } from './driver-dashboard.component';
-import { MaterialModule } from '../core/material/material.module';
-import { DriverDashboardRoutingModule } from './driver-dashboard-routing.module';
-import { CreateTravelComponent } from './create-travel/create-travel.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FromStepComponent } from './create-travel/steps-components/from-step/from-step.component';
+
+import { MaterialModule } from '../core/material/material.module';
+import { LocationTranslatePipeModule } from '../core/services/pipes/location-translate.pipe';
 import { HomeModule } from '../home/home.module';
-import { ToStepComponent } from './create-travel/steps-components/to-step/to-step.component';
+import { CreateTravelComponent } from './create-travel/create-travel.component';
 import { DepartureStepComponent } from './create-travel/steps-components/departure-step/departure-step.component';
+import { FromStepComponent } from './create-travel/steps-components/from-step/from-step.component';
 import { ReviewStepComponent } from './create-travel/steps-components/review-step/review-step.component';
-import { DriverTravelHistoryComponent } from './driver-travel-history/driver-travel-history.component';
+import { ToStepComponent } from './create-travel/steps-components/to-step/to-step.component';
+import { DriverDashboardRoutingModule } from './driver-dashboard-routing.module';
+import { DriverDashboardComponent } from './driver-dashboard.component';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import { DriverTravelHistoryComponent } from './driver-travel-history/driver-tra
         MaterialModule,
         HomeModule,
         ReactiveFormsModule,
+        LocationTranslatePipeModule,
     ],
     declarations: [
         DriverDashboardComponent,
@@ -25,7 +27,6 @@ import { DriverTravelHistoryComponent } from './driver-travel-history/driver-tra
         ToStepComponent,
         DepartureStepComponent,
         ReviewStepComponent,
-        DriverTravelHistoryComponent
     ]
 })
 export class DriverDashboardModule { }

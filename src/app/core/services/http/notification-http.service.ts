@@ -7,6 +7,7 @@ import { Pageable } from '../../models/pageable.model';
 import { Notification } from '../../components/notification-container/models/notification.model';
 import { JoinRequestNotification } from '../../components/notification-container/models/join-request-notification.model';
 import { map } from 'rxjs/operators';
+import { Travel } from '../../../home/travel-list/models/travel.model';
 
 @Injectable({
     providedIn: 'root'
@@ -38,7 +39,8 @@ export class NotificationHttpService {
     }
 
     getJoinRequestNotification(id: number): Observable<JoinRequestNotification> {
-        return this.http.get<JoinRequestNotification>(`${ NOTIFICATIONS_JOIN_REQUEST_URL }/${ id }`);
+        return this.http.get<JoinRequestNotification>(`${ NOTIFICATIONS_JOIN_REQUEST_URL }/${ id }`)
+            .pipe(map(notification => this.mapTravelJoinRequestNotificationDates(notification)));
     }
 
     acceptJoinRequestNotification(id: number): Observable<void> {
@@ -55,5 +57,16 @@ export class NotificationHttpService {
 
     cancelJoinRequest(travelId: number): Observable<void> {
         return this.http.post<void>(`${ PENDING_NOTIFICATIONS_JOIN_REQUEST_TRAVELS_URL }/${ travelId }${ CANCEL_URL }`, {});
+    }
+
+    private mapTravelJoinRequestNotificationDates(notification: JoinRequestNotification): JoinRequestNotification {
+        const travel = this.mapTravelDates(notification.travel);
+        notification.travel = travel;
+        return notification;
+    }
+
+    private mapTravelDates(travel: Travel): Travel {
+        travel.departureDate = new Date(travel.departureDate);
+        return travel;
     }
 }

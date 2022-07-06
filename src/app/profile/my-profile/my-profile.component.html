@@ -1,43 +1,55 @@
-<div class="profile-container bg-color-surface">
-    <ng-container *ngIf="profile">
-        <div class="picture-container">
-            <button mat-raised-button
-                    class="profile-picture-button">
-                <mat-icon class="edit-picture-icon"
-                          color="primary">edit</mat-icon>
-                <img class="profile-picture"
-                     src="assets/images/default-profile-avatar.svg">
-            </button>
-            <button mat-raised-button
-                    class="change-password-button"
-                    color="accent"
-                    (click)="changePassword()"
-                    i18n="@@profile.my-profile.html.change-password-button">Change Password</button>
-        </div>
-        <div class="fields-container">
-            <app-profile-editable-field label="First Name"
-                                        i18n-label="@@profile.my-profile.html.first-name-label"
-                                        propertyName="firstName"
-                                        [id]="profile!.id"
-                                        [defaultValue]="profile!.firstName"
-                                        (defaultValueChange)="updateProperty('firstName', $event)">
-            </app-profile-editable-field>
-            <app-profile-editable-field label="Last Name"
-                                        i18n-label="@@profile.my-profile.html.last-name-label"
-                                        propertyName="lastName"
-                                        [id]="profile!.id"
-                                        [defaultValue]="profile!.lastName"
-                                        (defaultValueChange)="updateProperty('lastName', $event)">
-            </app-profile-editable-field>
-            <app-profile-editable-field label="Email"
-                                        propertyName="email"
-                                        i18n-label="@@profile.my-profile.html.email-label"
-                                        [length]="255"
-                                        [id]="profile!.id"
-                                        [defaultValue]="profile!.email"
-                                        (defaultValueChange)="updateProperty('email', $event)">
-            </app-profile-editable-field>
-        </div>
-    </ng-container>
-    <mat-spinner *ngIf="!profile"></mat-spinner>
+<div class="container">
+    <div class="profile-container bg-color-surface">
+        <ng-container *ngIf="profile">
+            <div class="picture-container">
+                <button mat-raised-button
+                        class="profile-picture-button">
+                    <mat-icon class="edit-picture-icon"
+                              color="primary">edit</mat-icon>
+                    <img class="profile-picture"
+                         src="assets/images/default-profile-avatar.svg">
+                </button>
+                <button mat-raised-button
+                        class="change-password-button"
+                        color="accent"
+                        (click)="changePassword()"
+                        i18n="@@profile.my-profile.html.change-password-button">Change Password</button>
+            </div>
+            <div class="fields-container">
+                <app-profile-editable-field label="First Name"
+                                            i18n-label="@@profile.my-profile.html.first-name-label"
+                                            propertyName="firstName"
+                                            [id]="profile!.id"
+                                            [defaultValue]="profile!.firstName"
+                                            (defaultValueChange)="updateProperty('firstName', $event)">
+                </app-profile-editable-field>
+                <app-profile-editable-field label="Last Name"
+                                            i18n-label="@@profile.my-profile.html.last-name-label"
+                                            propertyName="lastName"
+                                            [id]="profile!.id"
+                                            [defaultValue]="profile!.lastName"
+                                            (defaultValueChange)="updateProperty('lastName', $event)">
+                </app-profile-editable-field>
+                <app-profile-editable-field label="Email"
+                                            propertyName="email"
+                                            i18n-label="@@profile.my-profile.html.email-label"
+                                            [length]="255"
+                                            [id]="profile!.id"
+                                            [defaultValue]="profile!.email"
+                                            (defaultValueChange)="updateProperty('email', $event)">
+                </app-profile-editable-field>
+                <app-profile-editable-field label="Phone"
+                                            i18n-label="@@profile.my-profile.html.phone-label"
+                                            propertyName="phone"
+                                            prefix="+359"
+                                            [numberOnly]="true"
+                                            [length]="9"
+                                            [id]="profile!.id"
+                                            [defaultValue]="profile!.phone"
+                                            (defaultValueChange)="updateProperty('phone', $event)">
+                </app-profile-editable-field>
+            </div>
+        </ng-container>
+        <mat-spinner *ngIf="!profile"></mat-spinner>
+    </div>
 </div>

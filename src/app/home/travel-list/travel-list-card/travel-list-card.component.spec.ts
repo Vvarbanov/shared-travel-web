@@ -1,24 +1,36 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
-import { TravelListCardComponent } from './travel-list-card.component';
+import { DatePipe } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { TravelStatusEnum } from '../models/travel-status.enum';
+import { RouterTestingModule } from '@angular/router/testing';
+import { travelMock } from '../../../core/mocks/travel.mock';
+import { LocationTranslatePipeModule } from '../../../core/services/pipes/location-translate.pipe';
+import { ProfileService } from '../../../profile/services/profile.service';
+import { TravelListCardComponent } from './travel-list-card.component';
 
 describe('TravelListCardComponent', () => {
     let component: TravelListCardComponent;
     let fixture: ComponentFixture<TravelListCardComponent>;
 
     beforeEach(async(() => {
+        const profileServiceSpy = jasmine.createSpyObj('ProfileService', ['getProfile']);
+        profileServiceSpy.getProfile.and.returnValue({});
+
         TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
                 RouterTestingModule,
-                MatSnackBarModule
+                MatSnackBarModule,
+                LocationTranslatePipeModule,
+            ],
+            providers: [{
+                provide: ProfileService,
+                useValue: profileServiceSpy
+            },
+            { provide: MatDialog, useValue: {} },
+            { provide: DatePipe, useValue: new DatePipe('en') }
             ],
             declarations: [TravelListCardComponent]
         })
@@ -28,16 +40,7 @@ describe('TravelListCardComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(TravelListCardComponent);
         component = fixture.componentInstance;
-        component.travel = {
-            id: 1,
-            from: 'mock',
-            to: 'mock',
-            driver: { id: 1, email: 'mock@email.com', firstName: 'mock', lastName: 'mock', profileSettings: { id: 1, emailVisible: false } },
-            departureDate: new Date(),
-            status: TravelStatusEnum.PENDING,
-            passengers: [],
-            applied: false
-        };
+        component.travel = travelMock;
         fixture.detectChanges();
     });
 

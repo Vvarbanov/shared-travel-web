@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
-import { TravelListComponent } from './travel-list.component';
+
 import { MaterialModule } from '../../core/material/material.module';
-import { TravelListRoutingModule } from './travel-list-routing.module';
-import { TravelListCardComponent } from './travel-list-card/travel-list-card.component';
+import { LocationTranslatePipeModule } from '../../core/services/pipes/location-translate.pipe';
 import { HomeModule } from '../home.module';
+import { TravelListCardComponent } from './travel-list-card/travel-list-card.component';
+import { TravelListRoutingModule } from './travel-list-routing.module';
+import { TravelListComponent } from './travel-list.component';
 
 @NgModule({
     declarations: [
@@ -13,7 +15,8 @@ import { HomeModule } from '../home.module';
     imports: [
         TravelListRoutingModule,
         MaterialModule,
-        HomeModule
+        HomeModule,
+        LocationTranslatePipeModule,
     ]
 })
 export class TravelListModule { }

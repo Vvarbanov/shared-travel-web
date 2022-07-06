@@ -1,5 +1,6 @@
-:host {
+.list-container {
     width: 100%;
+    border-radius: 0.25rem;
 
     display: flex;
     flex-wrap: wrap;
@@ -8,16 +9,40 @@
     padding: 1rem;
     margin-bottom: 0.5rem;
 
-    div {
+    .row {
         flex: 1;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
 
         padding: 0.5rem;
+    }
+
+    .destinations,
+    .status {
+        display: none;
     }
 
     .actions {
         display: flex;
         gap: 1rem;
         justify-content: center;
+    }
+}
+
+@media screen and (min-width: 50rem) {
+    .list-container {
+        .status {
+            display: flex;
+        }
+    }
+}
+
+@media screen and (min-width: 70rem) {
+    .list-container {
+        .destinations {
+            display: flex;
+        }
     }
 }

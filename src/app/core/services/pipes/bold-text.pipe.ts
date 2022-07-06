@@ -1,8 +1,11 @@
-import { Pipe, PipeTransform, SecurityContext } from '@angular/core';
+import { Injectable, NgModule, Pipe, PipeTransform, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Pipe({
     name: 'boldText'
+})
+@Injectable({
+    providedIn: 'root'
 })
 export class BoldTextPipe implements PipeTransform {
 
@@ -13,7 +16,7 @@ export class BoldTextPipe implements PipeTransform {
         return this.sanitize(this.replace(value, regex));
     }
 
-    replace(value: string, regex: RegExp): string {
+    private replace(value: string, regex: RegExp): string {
         const matched = value.match(regex);
         matched?.forEach(foundString => {
             foundString = foundString.substring(1, foundString.length - 1);
@@ -23,7 +26,13 @@ export class BoldTextPipe implements PipeTransform {
         return value;
     }
 
-    sanitize(value: string): string | null {
+    private sanitize(value: string): string | null {
         return this.sanitizer.sanitize(SecurityContext.HTML, value);
     }
 }
+
+@NgModule({
+    declarations: [BoldTextPipe],
+    exports: [BoldTextPipe]
+})
+export class BoldTextPipeModule { }

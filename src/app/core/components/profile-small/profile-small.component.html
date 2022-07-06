@@ -3,9 +3,17 @@
         {{profile.firstName}} {{profile.lastName}}
     </span>
 
-    <div *ngIf="showButtons || showOnlyCancel"
-         class="actions">
-        <button *ngIf="!showOnlyCancel"
+    <div class="actions">
+        <button mat-icon-button
+                (click)="viewProfile()"
+                i18n-matTooltip="@@icon-button-view-profile"
+                matTooltip="View Profile"
+                matTooltipPosition="after"
+                [matTooltipShowDelay]="1000"
+                aria-label="icon button used to view profile of user">
+            <mat-icon>person</mat-icon>
+        </button>
+        <button *ngIf="showButtons && !showOnlyCancel"
                 mat-icon-button
                 (click)="eventResponse.emit(true)"
                 color="accent"
@@ -16,7 +24,8 @@
                 aria-label="icon button used to accept travel join request">
             <mat-icon>done</mat-icon>
         </button>
-        <button mat-icon-button
+        <button *ngIf="showButtons"
+                mat-icon-button
                 (click)="eventResponse.emit(false)"
                 color="warn"
                 i18n-matTooltip="@@icon-button-reject"

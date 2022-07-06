@@ -1,0 +1,118 @@
+.title {
+    text-align: center;
+    font-size: 1.5rem;
+    padding-bottom: 1rem;
+}
+
+.content-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    text-align: center;
+    justify-content: center;
+
+    gap: 1rem;
+
+    .destinations {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        justify-content: center;
+        flex-wrap: nowrap;
+
+        .destination {
+            white-space: nowrap;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+        }
+    }
+
+    .details {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        gap: 0.5rem;
+
+        .people {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            .inner-people {
+                display: flex;
+                flex-wrap: nowrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+
+            .driver {
+                font-size: 1rem;
+
+                .driver-profile-button {
+                    mat-icon {
+                        margin-right: 0.5rem;
+                    }
+                }
+            }
+        }
+
+        .metadata {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            .status-container {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+
+                .status {
+                    padding: 0.25rem 0.75rem;
+                    border-radius: 0.25rem;
+                    font-size: 0.75rem;
+                }
+            }
+        }
+    }
+
+    .profiles-container {
+        display: flex;
+        flex-direction: column;
+
+        gap: 1rem;
+        padding-top: 1rem;
+
+        .inner-container {
+            display: flex;
+            flex-direction: column;
+
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+
+            .container-title {
+                font-size: 1rem;
+            }
+        }
+    }
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+@media screen and (min-width: 35rem) {
+    .content-container {
+        min-width: 25rem;
+    }
+}
+
+@media screen and (min-width: 60rem) {
+    .content-container {
+        min-width: 30rem;
+    }
+}

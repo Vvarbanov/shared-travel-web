@@ -1,9 +1,20 @@
-<div>
-    {{travel?.from}} -> {{travel?.to}}
-</div>
-<div>
-    Leaving: {{travel?.departureDate}}
-</div>
-<div>
-    Passengers: {{travel?.passengers?.length}}
+<div class="card-container bg-color-surface-secondary txt-color-surface-secondary bold">
+    <div class="destinations">
+        <span class="destination bg-color-accent-secondary txt-color-accent">{{travel!.from | locationTranslate}}</span>
+        <mat-icon>east</mat-icon>
+        <span class="destination bg-color-accent-secondary txt-color-accent">{{travel!.to | locationTranslate}}</span>
+    </div>
+    <div class="people">
+        <div class="inner-people">
+            <mat-icon>directions_car</mat-icon>
+            {{travel?.driver?.firstName}} {{travel?.driver?.lastName}}
+        </div>
+        <div class="inner-people">
+            <mat-icon>diversity_3</mat-icon>
+            {{travel?.passengers?.length}}/{{travel?.vehicle?.seats}}
+        </div>
+    </div>
+    <div>
+        {{formatDate(travel!.departureDate)}}
+    </div>
 </div>

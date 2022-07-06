@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SETTINGS_ROUTER_URL, MY_PROFILE_ROUTER_URL, PROFILE_TOKEN_KEY } from '../../../constants';
-import { Language } from '../../../services/language/model/language.model';
-import { LanguageService } from '../../../services/language/language.service';
-import { RedirectService } from 'src/app/core/services/redirects/redirect.service';
 import { Subscription } from 'rxjs';
-import { EventBrokerService } from 'src/app/core/services/events/event-broker.service';
-import { Events } from 'src/app/core/models/events.model';
+import { RedirectService } from 'src/app/core/services/redirects/redirect.service';
 import { ProfileService } from 'src/app/profile/services/profile.service';
 import { AuthenticationService } from '../../../../authentication/services/authentication.service';
+import { Profile } from '../../../../profile/models/profile.model';
+import { MY_PROFILE_ROUTER_URL, SETTINGS_ROUTER_URL } from '../../../constants';
+import { LanguageService } from '../../../services/language/language.service';
+import { Language } from '../../../services/language/model/language.model';
 
 @Component({
     selector: 'app-profile-card',
@@ -30,16 +29,15 @@ export class ProfileCardComponent implements OnInit, OnDestroy {
         private languageService: LanguageService,
         private profileService: ProfileService,
         private authenticationService: AuthenticationService,
-        private eventBroker: EventBrokerService
     ) {
         this.languages = this.languageService.getLanguages();
     }
 
     ngOnInit(): void {
-        this.updateProfileName();
-
         this.subscriptions.add(
-            this.eventBroker.getEvent(Events.profileDataUpdated)?.subscribe(() => this.updateProfileName())
+            this.profileService.currentProfileObs?.subscribe(profile => {
+                this.updateProfileName(profile);
+            })
         );
     }
 
@@ -47,14 +45,10 @@ export class ProfileCardComponent implements OnInit, OnDestroy {
         this.subscriptions.unsubscribe();
     }
 
-    private updateProfileName(): void {
-        try {
-            const profile = this.profileService.getProfile();
+    private updateProfileName(profile: Profile | null): void {
+        if (!profile) return;
 
-            this.name = profile.firstName + " " + profile.lastName;
-        } catch {
-            console.error("No user logged in yet!");
-        }
+        this.name = profile.firstName + " " + profile.lastName;
     }
 
     navigate(url: string): void {

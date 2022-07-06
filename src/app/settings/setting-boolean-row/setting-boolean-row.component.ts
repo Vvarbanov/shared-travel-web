@@ -6,19 +6,11 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
     styleUrls: ['./setting-boolean-row.component.scss']
 })
 export class SettingBooleanRowComponent {
-    @Input() title: string;
-    @Input() description: string;
-    @Input() checked: boolean;
+    @Input() title: string = '';
+    @Input() description: string = '';
+    @Input() checked: boolean = false;
 
     @Output() toggleEvent = new EventEmitter<boolean>();
 
-    constructor() {
-        this.title = '';
-        this.description = '';
-        this.checked = false;
-    }
-
-    toggle(checked: boolean): void {
-        this.toggleEvent.emit(checked);
-    }
+    constructor() { }
 }

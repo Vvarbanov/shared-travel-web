@@ -1,45 +1,55 @@
-.profile-container {
+.container {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
     justify-content: center;
-    gap: 1rem;
+    padding-top: 1rem;
 
-    padding: 1rem;
-    margin: 1rem;
-    border-radius: 0.25rem;
-
-    .profile-picture {
-        display: block;
-        height: 9rem;
-        aspect-ratio: 1;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-
-    .fields-container {
+    .profile-container {
         display: flex;
-        flex-direction: column;
-        max-width: fit-content;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
         gap: 1rem;
 
-        .field {
-            padding: 0.625rem;
-            border-radius: 0.25rem;
+        padding: 1rem;
+        margin: auto 1rem;
+        border-radius: 0.25rem;
 
-            .label {
-                cursor: default;
-                display: block;
-                font-size: 0.725rem;
-                color: var(--on-surface);
+        .profile-picture {
+            display: block;
+            height: 9rem;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .fields-container {
+            display: flex;
+            flex-direction: column;
+            max-width: fit-content;
+            gap: 1rem;
+
+            .field {
+                padding: 0.625rem;
+                border-radius: 0.25rem;
+
+                .label {
+                    cursor: default;
+                    display: block;
+                    font-size: 0.725rem;
+                    color: var(--on-surface);
+                }
             }
+        }
+
+        mat-spinner {
+            margin-bottom: 1rem;
         }
     }
 }
 
 @media screen and (min-width: 28rem) {
     .profile-container {
-        margin: 2rem auto;
+        margin: auto auto;
         max-width: fit-content;
     }
 }

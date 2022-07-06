@@ -1,9 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NotificationBellService } from './services/notification-bell.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Notification } from '../../notification-container/models/notification.model';
-import { PaginationService } from 'src/app/core/services/pagination/pagination.service';
-import { SortDirection } from 'src/app/core/models/sort-direction';
+import { NotificationBellService } from './services/notification-bell.service';
 
 @Component({
     selector: 'app-notification-bell',
@@ -17,7 +14,6 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
 
     constructor(private notificationBellService: NotificationBellService) {
         this.notificationCount = null;
-        this.notificationBellService.startNotificationCountInterval();
     }
 
     ngOnInit(): void {

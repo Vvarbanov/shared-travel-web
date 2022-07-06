@@ -12,7 +12,9 @@ export class ProfileEditableFieldComponent implements OnInit, OnDestroy {
     @Input() id: number;
 
     @Input() label: string;
-    @Input() length: number = 25;
+    @Input() length = 25;
+    @Input() numberOnly = false;
+    @Input() prefix = '';
 
     // [(defaultValue)] binding for the user.property
     @Input() defaultValue: string;

@@ -20,27 +20,37 @@
     </mat-form-field>
     <div *ngIf="formGroup.touched">
         <mat-error *ngIf="formGroup.get('email')?.hasError('required') && formGroup.get('email')?.touched"
-                   i18n="@@authentication.login.html.email-required-error"> Email is required!</mat-error>
+                   i18n="@@authentication.login.html.email-required-error">
+            Email is required!
+        </mat-error>
         <mat-error *ngIf="formGroup.get('email')?.hasError('email') && formGroup.get('email')?.touched"
                    i18n="@@authentication.login.html.email-format-error">
-            The email should be in proper format! </mat-error>
+            The email should be in proper format!
+        </mat-error>
         <mat-error *ngIf="formGroup.get('email')?.hasError('maxlength') && formGroup.get('email')?.touched"
-                   i18n="@@authentication.login.html.email-max-length-error"> Email should be a maximum of 255 symbols!
+                   i18n="@@authentication.login.html.email-max-length-error">
+            Email should be a maximum of 255 symbols!
         </mat-error>
         <mat-error *ngIf="formGroup.get('password')?.hasError('required') && formGroup.get('password')?.touched"
-                   i18n="@@authentication.login.html.password-required-error"> Password is required!</mat-error>
+                   i18n="@@authentication.login.html.password-required-error">
+            Password is required!
+        </mat-error>
         <mat-error *ngIf="formGroup.get('password')?.hasError('minlength') && !formGroup.get('password')?.hasError('required') && formGroup.get('password')?.touched"
-                   i18n="@@authentication.login.html.password-min-length-error"> Password should be at least 8
-            characters long!
+                   i18n="@@authentication.login.html.password-min-length-error">
+            Password should be at least 8 characters long!
         </mat-error>
         <mat-error *ngIf="formGroup.get('password')?.hasError('maxlength') && formGroup.get('password')?.touched"
-                   i18n="@@authentication.login.html.password-max-length-error"> Password should be a maximum of 128
-            symbols!
+                   i18n="@@authentication.login.html.password-max-length-error">
+            Password should be a maximum of 128 symbols!
         </mat-error>
         <mat-error *ngIf="formGroup.get('password')?.getError('authError') === 1"
-                   i18n="@@authentication.login.html.wrong-credentials-error"> Wrong email or password! </mat-error>
+                   i18n="@@authentication.login.html.wrong-credentials-error">
+            Wrong email or password!
+        </mat-error>
         <mat-error *ngIf="formGroup.get('password')?.getError('authError') === 2"
-                   i18n="@@authentication.login.html.server-error"> Unexpected error! </mat-error>
+                   i18n="@@authentication.login.html.server-error">
+            Unexpected error!
+        </mat-error>
     </div>
     <button [disabled]="formGroup?.invalid"
             mat-raised-button

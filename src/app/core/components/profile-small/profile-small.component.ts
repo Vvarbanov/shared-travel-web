@@ -1,5 +1,9 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+
 import { Profile } from '../../../profile/models/profile.model';
+import { PROFILE_MODULE_URL } from '../../constants';
 
 @Component({
     selector: 'app-profile-small',
@@ -19,7 +23,13 @@ export class ProfileSmallComponent {
     @Output()
     eventResponse = new EventEmitter<boolean>();
 
-    constructor() {
+    constructor(
+        private router: Router,
+        private dialog: MatDialog,
+    ) { }
 
+    viewProfile(): void {
+        this.dialog.closeAll();
+        this.router.navigateByUrl(`${ PROFILE_MODULE_URL }/${ this.profile.id }`);
     }
 }

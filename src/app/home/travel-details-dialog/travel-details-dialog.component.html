@@ -1,0 +1,76 @@
+<div class="title"
+     mat-dialog-title>{{dialogData.title}}</div>
+<div class="content-container"
+     mat-dialog-content>
+    <div class="destinations">
+        <span
+              class="destination bg-color-accent-secondary txt-color-accent bold">{{dialogData.travel.from | locationTranslate}}</span>
+        <mat-icon>east</mat-icon>
+        <span
+              class="destination bg-color-accent-secondary txt-color-accent bold">{{dialogData.travel.to | locationTranslate}}</span>
+    </div>
+    <div class="details">
+        <div class="people">
+            <div class="driver inner-people">
+                <button mat-raised-button
+                        class="driver-profile-button bold"
+                        color="primary"
+                        i18n-matTooltip="@@icon-button-view-profile"
+                        matTooltip="View Profile"
+                        matTooltipPosition="after"
+                        [matTooltipShowDelay]="1000"
+                        aria-label="button used to view profile of driver"
+                        (click)="viewDriverProfile()">
+                    <mat-icon>directions_car</mat-icon>
+                    <span>{{dialogData.travel.driver.firstName}} {{dialogData.travel.driver.lastName}}</span>
+                </button>
+            </div>
+            <div class="passenger inner-people">
+                <mat-icon>diversity_3</mat-icon>
+                {{dialogData.travel.passengers?.length}}/{{dialogData.travel.vehicle.seats}}
+            </div>
+        </div>
+
+        <div class="metadata">
+            <div class="status-container">
+                <span class="status bold"
+                      [ngClass]="dialogData.travel.status === TravelStatus.CANCELED ? 'bg-color-error-secondary':'bg-color-accent-secondary'">
+                    {{getTravelStatus(dialogData.travel.status)}}
+                </span>
+                <span class="status bg-color-accent-secondary bold">{{getTimeStatus()}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="bold">
+        {{formatDate(dialogData.travel.departureDate)}}
+    </div>
+
+    <div *ngIf="dialogData.notifications?.length || dialogData.travel?.passengers?.length"
+         class="profiles-container">
+        <div *ngIf="dialogData.notifications?.length"
+             class="inner-container pending-container bg-color-surface-secondary-dark">
+            <strong class="container-title"
+                    i18n="@@travel-details-dialog.html.pending">Pending</strong>
+            <ng-container *ngFor="let notification of dialogData.notifications">
+                <app-profile-small [profile]="notification.passenger"
+                                   [showButtons]="isTravelPending() && notification.status === JoinRequestStatus.PENDING && isUserDriver() && isTravelFuture() && isTravelNotFull()"
+                                   (eventResponse)="handlePending(notification, $event)"></app-profile-small>
+            </ng-container>
+        </div>
+        <div *ngIf="dialogData.travel?.passengers?.length"
+             class="inner-container joined-container bg-color-surface-secondary-dark">
+            <strong class="container-title"
+                    i18n="@@travel-details-dialog.html.joined">Joined</strong>
+            <app-profile-small *ngFor="let passenger of dialogData.travel.passengers"
+                               [profile]="passenger"
+                               [showOnlyCancel]="true"
+                               [showButtons]="isTravelPending()  && isUserDriverOrPassenger(passenger) && isTravelFuture()"
+                               (eventResponse)="kickPassenger(passenger)"></app-profile-small>
+        </div>
+    </div>
+    <button *ngIf="isTravelPending() && isUserDriver() && isTravelFuture()"
+            mat-raised-button
+            color="warn"
+            (click)="cancelTravel()"
+            i18n="@@travel-details-dialog.html.cancel">Cancel Travel</button>
+</div>

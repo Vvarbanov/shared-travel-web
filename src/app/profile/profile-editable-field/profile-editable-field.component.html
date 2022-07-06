@@ -1,11 +1,15 @@
 <mat-form-field appearance="fill">
+    <span *ngIf="prefix"
+          matPrefix>{{prefix}} &nbsp;</span>
     <mat-label>{{label}}</mat-label>
+
     <input matInput
            #input
            type="text"
            [maxlength]="length"
            [disabled]="!edit"
-           [(ngModel)]="editValue">
+           [(ngModel)]="editValue"
+           [appNumbersOnly]="numberOnly">
 </mat-form-field>
 <div class="actions">
     <button mat-icon-button

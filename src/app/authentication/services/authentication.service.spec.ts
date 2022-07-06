@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AuthenticationService } from './authentication.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 describe('AuthenticationService', () => {
     let service: AuthenticationService;
@@ -12,10 +12,8 @@ describe('AuthenticationService', () => {
         TestBed.configureTestingModule({
             imports: [
                 RouterTestingModule,
-                HttpClientTestingModule
-            ],
-            providers: [
-                { provide: MatDialog, useValue: {} }
+                HttpClientTestingModule,
+                MatDialogModule
             ]
         });
         service = TestBed.inject(AuthenticationService);

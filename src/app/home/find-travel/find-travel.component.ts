@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { TRAVELS_LIST_ROUTER_URL } from '../../core/constants';
 import { TravelFilter } from './models/travel-filter.model';
 import { LocationAutocompleteInputComponent } from './location-autocomplete-input/location-autocomplete-input.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-find-travel',
@@ -26,7 +27,8 @@ export class FindTravelComponent implements OnDestroy {
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
-        private findTravelService: FindTravelService
+        private findTravelService: FindTravelService,
+        private snackBar: MatSnackBar,
     ) {
         this.formData = this.formBuilder.group({
             from: ['', [Validators.required]],
@@ -65,7 +67,10 @@ export class FindTravelComponent implements OnDestroy {
                         queryParams: { from: this.formData.value.from, to: this.formData.value.to, startDateTime: this.formData.value.departureDate.valueOf() }
                     });
                 } else {
-                    // TODO: Handle no travels found with some notification
+                    this.snackBar.open($localize`:@@find-travel.snackbar.empty:Travels matching provided filter not found!`,
+                        $localize`:@@snackbar.close:Close`, {
+                        duration: 3000
+                    });
                 }
             }, error: e => console.error(e)
         });

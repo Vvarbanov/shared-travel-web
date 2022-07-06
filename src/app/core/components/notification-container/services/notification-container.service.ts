@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { Notification } from '../models/notification.model';
 import { NotificationTypeEnum } from '../models/notification-type.enum';
 import { JoinRequestMessageData } from '../models/join-request-message-data.model';
-import { TravelDetailsDialogComponent } from '../travel-details-dialog/travel-details-dialog.component';
+import { TravelDetailsDialogComponent } from '../../../../home/travel-details-dialog/travel-details-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationHttpService } from '../../../services/http/notification-http.service';
 import { DateService } from '../../../services/date/date.service';
-import { NotificationDialogsService } from './notification-dialogs.service';
 import { SimpleTravelNotificationData } from '../models/simple-travel-notification-data.model';
 import { ReplaySubject, Observable } from 'rxjs';
 import { Page } from '../../../models/page.model';
@@ -14,6 +13,7 @@ import { Pageable } from '../../../models/pageable.model';
 import { PaginationService } from 'src/app/core/services/pagination/pagination.service';
 import { SortDirection } from 'src/app/core/models/sort-direction';
 import { TwoPersonNotificationData } from '../models/two-person-notification-data.model';
+import { LocationTranslatePipe } from '../../../services/pipes/location-translate.pipe';
 
 @Injectable({
     providedIn: 'root'
@@ -27,8 +27,8 @@ export class NotificationContainerService {
     constructor(
         private dialog: MatDialog,
         private notificationHttpService: NotificationHttpService,
-        private notificationDialogService: NotificationDialogsService,
         private dateService: DateService,
+        private locationTranslatePipe: LocationTranslatePipe,
         private paginationService: PaginationService
     ) {
         this.pageable = this.paginationService.getPage("createdDate", SortDirection.DESC);
@@ -84,9 +84,8 @@ export class NotificationContainerService {
     private openJoinRequestDialog(notification: Notification): void {
         this.notificationHttpService.getJoinRequestNotification(notification.id).subscribe({
             next: res => {
-                const message = this.notificationDialogService.getJoinRequestDialogMessage(res);
                 const title = $localize`:@@join-request-dialog.html.dialog-title:Travel Join Request`;
-                this.dialog.open(TravelDetailsDialogComponent, { data: { notifications: [res], travel: res.travel, title, message } });
+                this.dialog.open(TravelDetailsDialogComponent, { data: { notifications: [res], travel: res.travel, title } });
             }, error: e => console.error(e)
         });
     }
@@ -121,8 +120,8 @@ export class NotificationContainerService {
         const messageData = this.parseMessageData<JoinRequestMessageData>(notification);
         return messageData ?
             $localize`:@@notification-container-service.ts.join-request-card.message:
-        *${ messageData.passengerName }* requested to *join a travel*
-        you host departing on *${ this.dateService.formatDateLongPretty(messageData.travelDate) }*` :
+            *${ messageData.passengerName }* requested to *join a travel* you host departing
+             on *${ this.dateService.formatDateLongPretty(messageData.travelDate) }*` :
             '';
     }
 
@@ -130,65 +129,88 @@ export class NotificationContainerService {
         const messageData = this.parseMessageData<SimpleTravelNotificationData>(notification);
         return messageData ?
             $localize`:@@notification-container-service.ts.accept-join-request-card.message:
-        Join request for travel from *${ messageData.from }* to *${ messageData.to }*
-                on *${ messageData.travelDate }* has been accepted!` :
+            Join request for travel
+             from *${ this.locationTranslatePipe.transform(messageData.from) }*
+             to *${ this.locationTranslatePipe.transform(messageData.to) }*
+             on *${ this.dateService.formatDateLongPretty(messageData.travelDate) }* has been accepted!` :
             '';
     }
 
     private getMessageForRejectRequestNotification(notification: Notification): string {
         const messageData = this.parseMessageData<SimpleTravelNotificationData>(notification);
-        return messageData ? $localize`:@@notification-container-service.ts.reject-join-request-card.message:
-                Join request for travel from *${ messageData.from }* to *${ messageData.to }*
-                on *${ messageData.travelDate }* has been rejected!` :
+        return messageData ?
+            $localize`:@@notification-container-service.ts.reject-join-request-card.message:
+            Join request for travel
+             from *${ this.locationTranslatePipe.transform(messageData.from) }*
+             to *${ this.locationTranslatePipe.transform(messageData.to) }*
+             on *${ this.dateService.formatDateLongPretty(messageData.travelDate) }* has been rejected!` :
             '';
     }
 
     private getMessageForTravelCanceled(notification: Notification): string {
         const messageData = this.parseMessageData<SimpleTravelNotificationData>(notification);
-        return messageData ? $localize`:@@notification-container-service.ts.travel-canceled-card.message:
-                Travel from *${ messageData.from }* to *${ messageData.to }*
-                on *${ messageData.travelDate }* has been canceled by the driver!` :
+        return messageData ?
+            $localize`:@@notification-container-service.ts.travel-canceled-card.message:
+            Travel
+             from *${ this.locationTranslatePipe.transform(messageData.from) }*
+             to *${ this.locationTranslatePipe.transform(messageData.to) }*
+             on *${ this.dateService.formatDateLongPretty(messageData.travelDate) }* has been canceled by the driver!` :
             '';
     }
 
     private getMessageForAppliedTravelCanceled(notification: Notification): string {
         const messageData = this.parseMessageData<SimpleTravelNotificationData>(notification);
-        return messageData ? $localize`:@@notification-container-service.ts.applied-travel-canceled-card.message:
-                Travel that you have applied for, from *${ messageData.from }* to *${ messageData.to }*
-                on *${ messageData.travelDate }* has been canceled by the driver!` :
+        return messageData ?
+            $localize`:@@notification-container-service.ts.applied-travel-canceled-card.message:
+            Travel that you have applied for,
+             from *${ this.locationTranslatePipe.transform(messageData.from) }*
+             to *${ this.locationTranslatePipe.transform(messageData.to) }*
+             on *${ this.dateService.formatDateLongPretty(messageData.travelDate) }* has been canceled by the driver!` :
             '';
     }
 
     private getMessageForPassengerLeft(notification: Notification): string {
         const messageData = this.parseMessageData<TwoPersonNotificationData>(notification);
-        return messageData ? $localize`:@@notification-container-service.ts.passenger-left.message:
-                *${ messageData.notifyingPerson }* has left your travel from *${ messageData.from }*
-                to *${ messageData.to }* on *${ messageData.travelDate }*!` :
+        return messageData ?
+            $localize`:@@notification-container-service.ts.passenger-left.message:
+            *${ messageData.notifyingPerson }* has left your travel
+             from *${ this.locationTranslatePipe.transform(messageData.from) }*
+             to *${ this.locationTranslatePipe.transform(messageData.to) }*
+             on *${ this.dateService.formatDateLongPretty(messageData.travelDate) }*!` :
             '';
 
     }
 
     private getMessageForPassangerKicked(notification: Notification): string {
         const messageData = this.parseMessageData<SimpleTravelNotificationData>(notification);
-        return messageData ? $localize`:@@notification-container-service.ts.passenger-kicked.message:
-                You have been removed from travel, from *${ messageData.from }* to *${ messageData.to }*
-                on *${ messageData.travelDate }* by the driver!` :
+        return messageData
+            ? $localize`:@@notification-container-service.ts.passenger-kicked.message:
+            You have been removed from travel,
+             from *${ this.locationTranslatePipe.transform(messageData.from) }*
+             to *${ this.locationTranslatePipe.transform(messageData.to) }*
+             on *${ this.dateService.formatDateLongPretty(messageData.travelDate) }* by the driver!` :
             '';
     }
 
     private getMessageForDriverTravelToday(notification: Notification): string {
         const messageData = this.parseMessageData<SimpleTravelNotificationData>(notification);
-        return messageData ? $localize`:@@notification-container-service.ts.driver-travel-today.message:
-                *Reminder* your travel as a *driver* from *${ messageData.from }* to *${ messageData.to }*
-                is today at: *${ messageData.travelDate }*!` :
+        return messageData ?
+            $localize`:@@notification-container-service.ts.driver-travel-today.message:
+            *Reminder* your travel as a *driver*
+             from *${ this.locationTranslatePipe.transform(messageData.from) }*
+             to *${ this.locationTranslatePipe.transform(messageData.to) }*
+             is today at: *${ this.dateService.formatDateLongPretty(messageData.travelDate) }*!` :
             '';
     }
 
     getMessageForPassengerTravelToday(notification: Notification): string {
         const messageData = this.parseMessageData<SimpleTravelNotificationData>(notification);
-        return messageData ? $localize`:@@notification-container-service.ts.passenger-travel-today.message:
-                *Reminder* your travel as a *passenger* from *${ messageData.from }* to *${ messageData.to }*
-                is today at: *${ messageData.travelDate }*!` :
+        return messageData ?
+            $localize`:@@notification-container-service.ts.passenger-travel-today.message:
+            *Reminder* your travel as a *passenger*
+             from *${ this.locationTranslatePipe.transform(messageData.from) }*
+             to *${ this.locationTranslatePipe.transform(messageData.to) }*
+             is today at: *${ this.dateService.formatDateLongPretty(messageData.travelDate) }*!` :
             '';
     }
 
@@ -196,41 +218,44 @@ export class NotificationContainerService {
         try {
             return JSON.parse(notification.messageData) as Type;
         } catch (err) {
-            console.error(`Failed parsing message data for notification with id ${ notification.id }`);
+            console.error(`Failed parsing message data for notification with id ${ notification.id }`, err);
         }
 
         return;
     }
 
     getNotificationTimeMessage(notification: Notification): string {
-        const date = notification.createdDate;
-        const now = new Date();
+        const diff = Date.now() - notification.createdDate.getTime();
 
-        const diff = now.getTime() - date.getTime();
-
-        const diffInMinutes = Math.floor(diff / 1000 / 60);
-        if (diffInMinutes < 1) {
+        const diffInSeconds = Math.floor(diff / 1000);
+        if (diffInSeconds <= 10) {
             return $localize`:@@notification-container-service.ts.notification.time-message.just-now: Just now`;
         }
 
-        const diffInHours = Math.floor(diff / 1000 / 60 / 60);
+        const diffInMinutes = Math.floor(diff / 1000 / 60);
+        if (diffInMinutes <= 1) {
+            return $localize`:@@notification-container-service.ts.notification.time-message.x-seconds-ago: ${ diffInSeconds } seconds ago`;
+        }
 
-        if (diffInHours < 1) {
+        const diffInHours = Math.floor(diff / 1000 / 60 / 60);
+        if (diffInHours <= 1) {
             return $localize`:@@notification-container-service.ts.notification.time-message.x-minutes-ago: ${ diffInMinutes } minutes ago`;
         }
 
         const diffInDays = Math.floor(diff / 1000 / 60 / 60 / 24);
-
-        if (diffInDays < 1) {
+        if (diffInDays <= 1) {
             return $localize`:@@notification-container-service.ts.notification.time-message.x-hours-ago: ${ diffInHours } hours ago`;
         }
 
-        const diffInYears = Math.floor(diff / 1000 / 60 / 60 / 24 / 365);
-
-        if (diffInYears < 1) {
+        const diffInMonths = Math.floor(diff / 1000 / 60 / 60 / 24 / 12);
+        if (diffInMonths <= 1) {
             return $localize`:@@notification-container-service.ts.notification.time-message.x-days-ago: ${ diffInDays } days ago`;
         }
 
+        const diffInYears = Math.floor(diff / 1000 / 60 / 60 / 24 / 365);
+        if (diffInYears <= 1) {
+            return $localize`:@@notification-container-service.ts.notification.time-message.x-months-ago: ${ diffInMonths } months ago`;
+        }
 
         return $localize`:@@notification-container-service.ts.notification.time-message.x-years-ago: ${ diffInYears } years ago`;
     }

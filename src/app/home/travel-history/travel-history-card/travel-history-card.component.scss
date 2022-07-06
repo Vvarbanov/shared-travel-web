@@ -1,5 +1,40 @@
-:host {
-    padding: 1.5rem;
+.card-container {
+    cursor: pointer;
 
+    display: flex;
+    flex-direction: column;
     text-align: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+
+    .destinations {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        justify-content: center;
+        flex-wrap: nowrap;
+
+        .destination {
+            white-space: nowrap;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+        }
+    }
+
+    .people {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+
+        .inner-people {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+    }
 }

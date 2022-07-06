@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { Dictionary } from '../../models/dictionary.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class EventBrokerService {
-    events: Dictionary<Subject<void>> = {};
+    events: Dictionary<ReplaySubject<void>> = {};
 
     constructor() { }
 
     registerEvent(event: string): void {
-        this.events[event] = new Subject();
+        this.events[event] = new ReplaySubject();
     }
 
     publishEvent(event: string): void {
         this.events[event].next();
     }
 
-    getEvent(event: string): Subject<void> {
+    getEvent(event: string): ReplaySubject<void> {
         return this.events[event];
     }
 }

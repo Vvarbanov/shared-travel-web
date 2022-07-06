@@ -1,9 +1,37 @@
 .travel-list-container {
-    padding: 1rem max(1rem, 10vw);
+    margin: 1rem;
 }
 
 mat-spinner {
     position: absolute;
     inset: 50% 50%;
     transform: translate(-50%, -50%);
+}
+
+mat-paginator {
+    border-radius: 0.25rem;
+}
+
+@media screen and (min-width: 40rem) {
+    .travel-list-container {
+        margin: 1rem 5vw;
+    }
+}
+
+@media screen and (min-width: 60rem) {
+    .travel-list-container {
+        margin: 1rem 8vw;
+    }
+}
+
+@media screen and (min-width: 80rem) {
+    .travel-list-container {
+        margin: 1rem 10vw;
+    }
+}
+
+@media screen and (min-width: 100rem) {
+    .travel-list-container {
+        margin: 1rem 12vw;
+    }
 }

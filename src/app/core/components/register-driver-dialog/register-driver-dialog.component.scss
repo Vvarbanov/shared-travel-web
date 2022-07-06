@@ -1,0 +1,22 @@
+.content-container {
+    form  {
+        max-width: 50rem;
+        min-width: 30rem;
+        margin: 3rem auto;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        padding-top: 1rem;
+    
+        mat-form-field {
+            width: 90%;
+        }
+    
+        button {
+            margin-top: 2rem;
+            width: 90%;
+            height: 3rem;
+            bottom: 1rem;
+        }
+    }
+}

@@ -29,7 +29,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
             password: ['', [Validators.required, Validators.minLength(PASSWORD_MIN_LENGTH), Validators.maxLength(PASSWORD_MAX_LENGTH), this.validatorService.passwordFormatValidator]],
             passwordConfirmation: ['', [Validators.required]],
             firstName: ['', [Validators.required]],
-            lastName: ['', [Validators.required]]
+            lastName: ['', [Validators.required]],
+            phone: ['', [Validators.required, Validators.pattern('(^$|[0-9]{9})')]]
         }, { validators: this.validatorService.passwordMatchingValidatior });
     }
 

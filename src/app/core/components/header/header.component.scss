@@ -1,7 +1,14 @@
-header {
-    --header-height: 3.5rem;
+.spacer {
     width: 100%;
     height: var(--header-height);
+}
+
+header {
+    width: 100%;
+    height: var(--header-height);
+    position: fixed;
+    top: 0;
+    z-index: 1000;
 
     .header-container {
         display: flex;

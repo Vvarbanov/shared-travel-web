@@ -1,4 +1,4 @@
-export enum JoinRequestNotificationStatus {
+export enum JoinRequestNotificationStatusEnum {
     PENDING = "PENDING",
     APPROVED = "APPROVED",
     REJECTED = "REJECTED",

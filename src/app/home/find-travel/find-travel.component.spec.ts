@@ -7,6 +7,7 @@ import { FindTravelComponent } from './find-travel.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('FindTravelComponent', () => {
     let component: FindTravelComponent;
@@ -18,7 +19,8 @@ describe('FindTravelComponent', () => {
             imports: [
                 ReactiveFormsModule,
                 HttpClientTestingModule,
-                RouterTestingModule
+                RouterTestingModule,
+                MatSnackBarModule,
             ],
         })
             .compileComponents();

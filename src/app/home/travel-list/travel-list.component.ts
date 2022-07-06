@@ -1,16 +1,16 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-import { Page } from '../../core/models/page.model';
-import { Travel } from './models/travel.model';
-import { FindTravelService } from '../find-travel/services/find-travel.service';
-import { Subscription } from 'rxjs';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { PAGINATION_OPTIONS } from '../../core/constants';
 import { ActivatedRoute } from '@angular/router';
-import { FindTravelComponent } from '../find-travel/find-travel.component';
-import { TravelListService } from './services/travel-list.service';
+import { Subscription } from 'rxjs';
 import { RedirectService } from 'src/app/core/services/redirects/redirect.service';
 import { Profile } from 'src/app/profile/models/profile.model';
 import { ProfileService } from 'src/app/profile/services/profile.service';
+import { PAGINATION_OPTIONS } from '../../core/constants';
+import { Page } from '../../core/models/page.model';
+import { FindTravelComponent } from '../find-travel/find-travel.component';
+import { FindTravelService } from '../find-travel/services/find-travel.service';
+import { Travel } from './models/travel.model';
+import { TravelListService } from './services/travel-list.service';
 
 @Component({
     selector: 'app-travel-list',
@@ -23,7 +23,7 @@ export class TravelListComponent implements OnInit, AfterViewInit, OnDestroy {
     showSpinner = true;
 
     travelsPage: Page<Travel> | undefined;
-    profile!: Profile;
+    profile: Profile | null | undefined;
 
     @ViewChild(FindTravelComponent) findTravelComponent: FindTravelComponent | undefined;
 
@@ -36,7 +36,11 @@ export class TravelListComponent implements OnInit, AfterViewInit, OnDestroy {
     ) { }
 
     ngOnInit(): void {
-        this.profile = this.profileService.getProfile();
+        this.subscriptions.add(
+            this.profileService.currentProfileObs?.subscribe(profile => {
+                this.profile = profile;
+            })
+        );
 
         this.subscriptions.add(
             this.findTravelService.travelPageObs.subscribe(travels => {

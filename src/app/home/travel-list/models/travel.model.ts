@@ -1,5 +1,6 @@
 import { TravelStatusEnum } from './travel-status.enum';
 import { Profile } from '../../../profile/models/profile.model';
+import { Vehicle } from './vehicle.model';
 
 export interface Travel {
     id: number;
@@ -10,4 +11,5 @@ export interface Travel {
     driver: Profile;
     passengers: Profile[];
     applied: boolean | undefined;
+    vehicle: Vehicle
 }

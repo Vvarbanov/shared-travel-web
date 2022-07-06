@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Travel } from '../models/travel.model';
-import { TravelHttpService } from '../../../core/services/http/travel-http.service';
-import { Profile } from 'src/app/profile/models/profile.model';
-import { RedirectService } from 'src/app/core/services/redirects/redirect.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TravelParticipantRole } from './models/travel-participant-role.enum';
 import { NotificationHttpService } from 'src/app/core/services/http/notification-http.service';
+import { Profile } from 'src/app/profile/models/profile.model';
+import { DateService } from '../../../core/services/date/date.service';
+import { TravelHttpService } from '../../../core/services/http/travel-http.service';
+import { TravelDetailsDialogService } from '../../travel-details-dialog/services/travel-details-dialog.service';
+import { Travel } from '../models/travel.model';
+import { TravelParticipantRole } from './models/travel-participant-role.enum';
 
 @Component({
     selector: 'app-travel-list-card',
@@ -14,26 +15,42 @@ import { NotificationHttpService } from 'src/app/core/services/http/notification
 })
 export class TravelListCardComponent implements OnInit {
     @Input() travel: Travel | undefined;
-    @Input() profile: Profile | undefined;
+    @Input() profile: Profile | null | undefined;
 
     Role: typeof TravelParticipantRole = TravelParticipantRole;
 
     role: TravelParticipantRole = TravelParticipantRole.NONE;
     status: string = "";
+    statusIcon: string = "";
 
     constructor(
         private travelHttpService: TravelHttpService,
         private notificationHttpService: NotificationHttpService,
-        private snackBar: MatSnackBar) { }
+        private travelDetailsDialogService: TravelDetailsDialogService,
+        private dateService: DateService,
+        private snackBar: MatSnackBar
+    ) { }
 
     ngOnInit(): void {
         this.setCanJoin();
     }
 
+    formatDate(date: Date): string | null {
+        return this.dateService.formatDateLongPretty(date);
+    }
+
+    openTravelDetails(): void {
+        this.travelDetailsDialogService.openTravelDetails(this.travel!);
+    }
+
     requestJoinTravel(): void {
+        if (this.travel!.passengers!.length >= this.travel!.vehicle!.seats) {
+            return;
+        }
+
         this.travelHttpService.requestJoinTravel(this.travel!.id).subscribe({
             next: () => {
-                this.snackBar.open($localize`:@@travel-list-card.snackbar.successfull-application:Successful travel application!`, $localize`:@@travel-list-card.snackbar.close:Close`, {
+                this.snackBar.open($localize`:@@travel-list-card.snackbar.successfull-application:Successful travel application!`, $localize`:@@snackbar.close:Close`, {
                     duration: 3000
                 });
 
@@ -45,7 +62,7 @@ export class TravelListCardComponent implements OnInit {
     cancelJoinRequest(): void {
         this.notificationHttpService.cancelJoinRequest(this.travel!.id).subscribe({
             next: () => {
-                this.snackBar.open($localize`:@@travel-list-card.snackbar.successfull-cancel-application:Successfully canceled application!`, $localize`:@@travel-list-card.snackbar.close:Close`, {
+                this.snackBar.open($localize`:@@travel-list-card.snackbar.successfull-cancel-application:Successfully canceled application!`, $localize`:@@snackbar.close:Close`, {
                     duration: 3000
                 });
 
@@ -57,7 +74,7 @@ export class TravelListCardComponent implements OnInit {
     leaveTravel(): void {
         this.travelHttpService.leaveTravel(this.travel!.id).subscribe({
             next: () => {
-                this.snackBar.open($localize`:@@travel-list-card.snackbar.successfull-leave-travel:Successfully left the travel!`, $localize`:@@travel-list-card.snackbar.close:Close`, {
+                this.snackBar.open($localize`:@@travel-list-card.snackbar.successfull-leave-travel:Successfully left the travel!`, $localize`:@@snackbar.close:Close`, {
                     duration: 3000
                 });
 
@@ -79,25 +96,41 @@ export class TravelListCardComponent implements OnInit {
 
         if (this.travel!.applied) {
             this.setUserApplicant();
+            return;
         }
 
+        if (this.travel!.passengers!.length >= this.travel!.vehicle!.seats) {
+            this.setTravelFull();
+            return;
+        }
+
+        this.setUserNone();
     }
 
     private setUserDriver(): void {
         this.role = TravelParticipantRole.DRIVER;
         this.status = $localize`:@@travel-list-card.status.driver:Driver`;
+        this.statusIcon = 'directions_car';
     }
     private setUserPassenger(): void {
         this.role = TravelParticipantRole.PASSENGER;
         this.status = $localize`:@@travel-list-card.status.passenger:Passenger`;
+        this.statusIcon = 'backpack';
     }
     private setUserApplicant(): void {
         this.role = TravelParticipantRole.APPLICANT;
-        this.status = $localize`:@@travel-list-card.status.applicant:Awaiting acceptance`;
+        this.status = $localize`:@@travel-list-card.status.applicant:Pending`;
+        this.statusIcon = 'hourglass_top';
+    }
+
+    private setTravelFull(): void {
+        this.status = $localize`:@@travel-list-card.status.full:Full`;
+        this.statusIcon = 'car_crash';
     }
 
     private setUserNone(): void {
         this.role = TravelParticipantRole.NONE;
         this.status = '';
+        this.statusIcon = '';
     }
 }

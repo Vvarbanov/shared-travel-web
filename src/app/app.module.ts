@@ -25,6 +25,7 @@ import { JwtInterceptorService } from './core/services/interceptors/jwt-intercep
 import { BoldTextPipeModule } from './core/services/pipes/bold-text.pipe';
 import { LocationTranslatePipeModule } from './core/services/pipes/location-translate.pipe';
 import { TravelDetailsDialogComponent } from './home/travel-details-dialog/travel-details-dialog.component';
+import { DirectiveModule } from './core/services/directives/directive.module';
 
 @NgModule({
     declarations: [
@@ -55,7 +56,8 @@ import { TravelDetailsDialogComponent } from './home/travel-details-dialog/trave
         BoldTextPipeModule,
         LocationTranslatePipeModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        DirectiveModule,
     ],
     providers: [
         DatePipe,

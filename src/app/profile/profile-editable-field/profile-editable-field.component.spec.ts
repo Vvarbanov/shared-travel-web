@@ -1,12 +1,10 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
-import { ProfileEditableFieldComponent } from './profile-editable-field.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ProfileEditableFieldComponent } from './profile-editable-field.component';
 
 describe('ProfileEditableFieldComponent', () => {
     let component: ProfileEditableFieldComponent;
@@ -17,7 +15,8 @@ describe('ProfileEditableFieldComponent', () => {
             imports: [
                 HttpClientTestingModule,
                 HttpClientTestingModule,
-                RouterTestingModule
+                RouterTestingModule,
+                ReactiveFormsModule
             ],
             declarations: [ProfileEditableFieldComponent],
             providers: [

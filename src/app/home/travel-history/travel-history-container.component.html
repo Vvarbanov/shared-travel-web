@@ -1,8 +1,10 @@
 <div class="container">
-    <app-travel-history-list [travels]="futureTravels"
+    <app-travel-history-list *ngIf="futureTravels.length"
+                             [travels]="futureTravels"
                              i18n-title="@@travel-history-container.html.future-travel-title"
                              title="Future Travels"></app-travel-history-list>
-    <app-travel-history-list [travels]="pastTravels"
+    <app-travel-history-list *ngIf="pastTravels.length"
+                             [travels]="pastTravels"
                              i18n-title="@@travel-history-container.html.past-travel-title"
                              title="Past Travels"></app-travel-history-list>
 </div>

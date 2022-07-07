@@ -6,8 +6,10 @@
 
     form {
         display: flex;
+        flex-direction: column;
         flex-wrap: wrap;
         justify-content: space-evenly;
+        align-items: center;
         gap: 1rem;
 
         padding: 1rem;
@@ -16,6 +18,7 @@
 
         mat-form-field {
             flex: 1;
+            
         }
 
         .button-container {
@@ -26,5 +29,11 @@
 
             padding-bottom: 1rem;
         }
+    }
+}
+
+@media screen and (min-width: 30rem) {
+    .form-container form {
+        flex-direction: row;
     }
 }

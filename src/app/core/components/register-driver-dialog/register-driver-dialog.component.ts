@@ -28,7 +28,7 @@ export class RegisterDriverDialogComponent implements OnInit, OnDestroy {
         this.formGroup = this.formBuilder.group({
             make: ['', [Validators.required, Validators.maxLength(50)]],
             model: ['', [Validators.required, Validators.maxLength(100)]],
-            seats: ['', [Validators.required]]
+            seats: ['', [Validators.required, Validators.maxLength(2)]]
         });
     }
 

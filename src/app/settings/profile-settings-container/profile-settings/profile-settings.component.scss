@@ -4,7 +4,6 @@
 
     mat-expansion-panel-header {
         .title {
-            flex-basis: 0;
             align-items: center;
         }
 
@@ -20,12 +19,18 @@
     }
 }
 
-@media screen and (min-width: 25rem) {
-    .panel mat-expansion-panel-header .description {
-        justify-content: space-between;
+@media screen and (min-width: 30rem) {
+    .panel mat-expansion-panel-header {
+        .description {
+            justify-content: space-between;
 
-        .description-text {
-            display: flex;
+            .description-text {
+                display: flex;
+            }
+        }
+
+        .title {
+            flex-basis: 0;
         }
     }
 }

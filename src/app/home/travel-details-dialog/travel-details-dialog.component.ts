@@ -66,10 +66,6 @@ export class TravelDetailsDialogComponent implements OnInit, OnDestroy {
     }
 
     kickPassenger(passenger: Profile): void {
-        if (passenger.id === this.profile?.id) {
-
-        }
-
         this.travelHttpService.kickPassenger(this.dialogData.travel.id, passenger.id).subscribe({
             next: () => {
                 this.dialogData.travel.passengers = this.dialogData.travel.passengers.filter(p => p.id !== passenger.id);
@@ -147,7 +143,7 @@ export class TravelDetailsDialogComponent implements OnInit, OnDestroy {
     }
 
     isUserDriverOrPassenger(passenger: Profile): boolean {
-        return this.profile?.id === this.dialogData.travel.driver.id || passenger.id === this.profile?.id;
+        return this.isUserDriver() || this.isUserPassenger(passenger);
     }
 
     isUserDriver(): boolean {

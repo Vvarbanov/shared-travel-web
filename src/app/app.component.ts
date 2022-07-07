@@ -8,7 +8,7 @@ import { EventBrokerService } from './core/services/events/event-broker.service'
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-    title = `shared-travel`;
+    title = `Shared Travel`;
 
     constructor(private eventService: EventBrokerService) { }
 

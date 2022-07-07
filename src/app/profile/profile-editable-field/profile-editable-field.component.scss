@@ -7,6 +7,16 @@
         color: var(--on-surrface);
     }
 
+    .field-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .error-field {
+        color: var(--error);
+        margin-top: -1rem;
+    }
+
     .actions {
         flex-grow: 0;
         display: inline-flex;

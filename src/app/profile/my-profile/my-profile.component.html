@@ -33,7 +33,8 @@
                 <app-profile-editable-field label="Email"
                                             propertyName="email"
                                             i18n-label="@@profile.my-profile.html.email-label"
-                                            [length]="255"
+                                            [maxLength]="255"
+                                            [hasEmailValidation]="true"
                                             [id]="profile!.id"
                                             [defaultValue]="profile!.email"
                                             (defaultValueChange)="updateProperty('email', $event)">
@@ -43,7 +44,9 @@
                                             propertyName="phone"
                                             prefix="+359"
                                             [numberOnly]="true"
-                                            [length]="9"
+                                            [minLength]="9"
+                                            [hasMinLengthValidation]="true"
+                                            [maxLength]="9"
                                             [id]="profile!.id"
                                             [defaultValue]="profile!.phone"
                                             (defaultValueChange)="updateProperty('phone', $event)">

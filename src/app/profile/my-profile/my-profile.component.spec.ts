@@ -1,12 +1,9 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
-import { MyProfileComponent } from './my-profile.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ProfileService } from '../services/profile.service';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
+import { ProfileService } from '../services/profile.service';
+import { MyProfileComponent } from './my-profile.component';
 
 describe('MyProfileComponent', () => {
     let component: MyProfileComponent;

@@ -1,16 +1,30 @@
-<mat-form-field appearance="fill">
-    <span *ngIf="prefix"
-          matPrefix>{{prefix}} &nbsp;</span>
-    <mat-label>{{label}}</mat-label>
+<form [formGroup]="formGroup"
+      class="field-container">
+    <mat-form-field appearance="fill">
+        <span *ngIf="prefix"
+              matPrefix>{{prefix}} &nbsp;</span>
+        <mat-label>{{label}}</mat-label>
 
-    <input matInput
-           #input
-           type="text"
-           [maxlength]="length"
-           [disabled]="!edit"
-           [(ngModel)]="editValue"
-           [appNumbersOnly]="numberOnly">
-</mat-form-field>
+        <input matInput
+               #input
+               type="text"
+               [maxlength]="maxLength"
+               [formControlName]="'field'"
+               [appNumbersOnly]="numberOnly">
+        <mat-error *ngIf="formGroup.get('field')?.hasError('required') && formGroup.get('field')?.touched"
+                   i18n="@@profile.profile-ditable-field.html.requried-error">
+            Field is required!
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('field')?.hasError('email') && formGroup.get('field')?.touched"
+                   i18n="@@profile.profile-ditable-field.html.email-error">
+            Invalid Email!
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('field')?.hasError('minlength') && formGroup.get('field')?.touched"
+                   i18n="@@profile.profile-ditable-field.html.minlength-error">
+            Minimum length {{minLength}} symbols!
+        </mat-error>
+    </mat-form-field>
+</form>
 <div class="actions">
     <button mat-icon-button
             *ngIf="!edit"
@@ -25,6 +39,7 @@
     </button>
     <button mat-icon-button
             *ngIf="edit"
+            [disabled]="formGroup?.invalid"
             (click)="saveEdit()"
             color="accent"
             i18n-matTooltip="@@icon-button-save"
